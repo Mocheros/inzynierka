@@ -1,0 +1,2 @@
+module SingleStatsHelper
+end

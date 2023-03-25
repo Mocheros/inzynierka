@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  shirt_number: 1
+  position: MyString
+  goals: 1
+  assists: 1
+  yellow_cards: 1
+  red_cards: 1
+  games_played: 1
+  team: one
+
+two:
+  name: MyString
+  shirt_number: 1
+  position: MyString
+  goals: 1
+  assists: 1
+  yellow_cards: 1
+  red_cards: 1
+  games_played: 1
+  team: two

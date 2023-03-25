@@ -10,9 +10,68 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_04_224227) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_25_230832) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "games", force: :cascade do |t|
+    t.integer "home_team_id"
+    t.integer "away_team_id"
+    t.integer "home_score", default: 0, null: false
+    t.integer "away_score", default: 0, null: false
+    t.string "location"
+    t.datetime "date"
+    t.string "status"
+    t.bigint "round_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["round_id"], name: "index_games_on_round_id"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.string "name"
+    t.string "position"
+    t.integer "shirt_number"
+    t.integer "games_played", default: 0, null: false
+    t.integer "goals", default: 0, null: false
+    t.integer "assists", default: 0, null: false
+    t.integer "yellow_cards", default: 0, null: false
+    t.integer "red_cards", default: 0, null: false
+    t.bigint "team_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["team_id"], name: "index_players_on_team_id"
+  end
+
+  create_table "rounds", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "single_stats", force: :cascade do |t|
+    t.integer "game_id"
+    t.integer "team_id"
+    t.integer "player_id"
+    t.integer "assistant_id"
+    t.integer "minute"
+    t.string "stat_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name"
+    t.integer "games_played", default: 0, null: false
+    t.integer "wins", default: 0, null: false
+    t.integer "draws", default: 0, null: false
+    t.integer "defeats", default: 0, null: false
+    t.integer "goals_for", default: 0, null: false
+    t.integer "goals_against", default: 0, null: false
+    t.integer "points", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -31,4 +90,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_224227) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "games", "rounds"
+  add_foreign_key "players", "teams"
 end
