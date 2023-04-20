@@ -5,7 +5,13 @@ class Tournament < ApplicationRecord
 
 
   def self.league_single_game_generator(teams_array, t_id)
-    teams = teams_array.shuffle
+
+    teams = teams_array.map(&:id).shuffle
+
+    if teams.length.odd?
+      teams << 0
+    end
+
     rounds = teams.length - 1
     matches_per_round = teams.length / 2
 
@@ -18,13 +24,18 @@ class Tournament < ApplicationRecord
         next if team1 == team2
 
         # Dodajemy mecz do kolejki
-        game = Game.create(home_team_id: team1.id, away_team_id: team2.id, round_id: new_round.id, tournament_id: t_id)
+        game = Game.create(home_team_id: team1, away_team_id: team2, round_id: new_round.id, tournament_id: t_id)
         match = [team1, team2]
         round_matches << match
       end
       
       # Zamieniamy pozycje druzyn, by utworzyc nowa kolejke
       teams.insert(1, teams.pop)
+
+      if teams.length.odd?
+        bye_team = teams[0]
+        round_matches << [bye_team, 0]
+      end
     end
   end
 
