@@ -26,6 +26,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_19_204231) do
     t.bigint "round_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "tournament_id"
     t.index ["round_id"], name: "index_games_on_round_id"
   end
 
@@ -48,6 +49,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_19_204231) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "tournament_id"
   end
 
   create_table "single_stats", force: :cascade do |t|
@@ -72,7 +74,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_19_204231) do
     t.integer "points", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "tournament_id"
+    t.string "tournament_id"
   end
 
   create_table "tournaments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

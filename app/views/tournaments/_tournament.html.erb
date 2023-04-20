@@ -14,4 +14,21 @@
     <%= tournament.number_of_teams %>
   </p>
 
+  <p>
+    <strong>Teams:</strong>
+    <% tournament.teams.each do |team| %>
+      <%= team.name %>
+    <% end %>
+  </p>
+
+  <p>
+    <strong>Games:</strong>
+    <% tournament.rounds.each do |round| %>
+      <%= round.name %>:<br>
+        <% tournament.games.where(round_id: round.id).each do |game| %><br>
+          <%= game.home_team.name %> vs <%= game.away_team.name %><br>
+        <% end %>
+    <% end %>
+  </p>
+
 </div>

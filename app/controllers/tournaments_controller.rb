@@ -25,6 +25,12 @@ class TournamentsController < ApplicationController
 
     respond_to do |format|
       if @tournament.save
+        teams = []
+        for a in 1..@tournament.number_of_teams do
+          team = Team.create(name: "Team ##{a}", tournament_id: @tournament.id)
+          teams.push(team)
+        end
+        Tournament.league_single_game_generator(teams, @tournament.id)
         format.html { redirect_to tournament_url(@tournament), notice: "Tournament was successfully created." }
         format.json { render :show, status: :created, location: @tournament }
       else
