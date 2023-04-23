@@ -1,0 +1,27 @@
+= link_to "Turniej", tournament_path(@tournament.id)
+
+%table.table.table-hover.table-striped
+  %thead
+    %tr
+      %th{scope: "col"} #
+      %th{scope: "col"} Drużyna
+      %th{scope: "col"} Mecze
+      %th{scope: "col"} Wygrane
+      %th{scope: "col"} Remisy
+      %th{scope: "col"} Przegrane
+      %th{scope: "col"} Bramki
+      %th{scope: "col"} Punkty
+  %tbody
+    - @standings.each_with_index do |standing, i|
+      %tr
+        %th{scope: "row"}
+          = i+1
+        %td= standing.name
+        %td= standing.games_played
+        %td= standing.wins
+        %td= standing.draws
+        %td= standing.defeats
+        %td
+          = standing.goals_for
+          \: #{standing.goals_against}
+        %td= standing.points

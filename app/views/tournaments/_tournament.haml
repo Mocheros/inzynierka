@@ -1,0 +1,26 @@
+%div{id: "#{dom_id tournament}"}
+  %p
+    %strong Name:
+    = tournament.name
+  %p
+    %strong Format:
+    = tournament.format
+  %p
+    %strong Number of teams:
+    = tournament.number_of_teams
+  %p
+    %strong Teams:
+    - tournament.teams.each do |team|
+      = team.name
+  %p
+    %strong Games:
+    - tournament.rounds.each do |round|
+      = round.name
+      \:
+      %br/
+      - tournament.games.where(round_id: round.id).each do |game|
+        %br/
+        = game.home_team.name
+        vs 
+        = game.away_team.name
+        %br/

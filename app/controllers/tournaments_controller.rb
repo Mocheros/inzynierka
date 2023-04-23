@@ -27,10 +27,14 @@ class TournamentsController < ApplicationController
       if @tournament.save
         teams = []
         for a in 1..@tournament.number_of_teams do
-          team = Team.create(name: "Team ##{a}", tournament_id: @tournament.id)
+          team = Team.create!(name: "Team ##{a}", tournament_id: @tournament.id)
           teams.push(team)
         end
-        Tournament.league_single_game_generator(teams, @tournament.id)
+        if tournament_params[:format] == "System ligowy"
+          Tournament.league_single_game_generator(teams, @tournament.id)
+        elsif tournament_params[:format] == "System ligowy z rewanżami"
+          Tournament.league_double_game_generator(teams, @tournament.id)
+        end
         format.html { redirect_to tournament_url(@tournament), notice: "Tournament was successfully created." }
         format.json { render :show, status: :created, location: @tournament }
       else

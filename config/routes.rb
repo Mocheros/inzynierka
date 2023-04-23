@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
-  resources :tournaments
-  resources :single_stats
-  resources :games
-  resources :rounds
-  resources :players
-  resources :teams
+  resources :tournaments do
+    resources :single_stats
+    resources :games
+    resources :rounds
+    resources :players
+    resources :teams
+    resources :standings
+  end
   root 'home#index'
   devise_for :users, controllers: {
     omniauth_callbacks: 'users/omniauth_callbacks',

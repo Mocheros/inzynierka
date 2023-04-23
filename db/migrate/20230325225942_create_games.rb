@@ -8,7 +8,7 @@ class CreateGames < ActiveRecord::Migration[7.0]
       t.string :location
       t.datetime :date
       t.string :status
-      t.references :round, null: false, foreign_key: true
+      t.references :round, foreign_key: true
 
       t.timestamps
     end
