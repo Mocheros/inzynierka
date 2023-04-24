@@ -1,0 +1,19 @@
+= link_to "Turniej", tournament_path(@tournament.id)
+
+%table.table.table-hover.table-striped
+  %thead
+    %tr
+      %th{scope: "col"} #
+      %th{scope: "col"} Zawodnik
+      %th{scope: "col"} Drużyna
+      %th{scope: "col"} Gole
+      %th{scope: "col"} Asysty
+  %tbody
+    - @top_scorers.each_with_index do |scorer, i|
+      %tr
+        %th{scope: "row"}
+          = i+1
+        %td= scorer.name
+        %td= scorer.team_id
+        %td= scorer.goals
+        %td= scorer.assists

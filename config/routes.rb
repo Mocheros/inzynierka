@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     resources :players
     resources :teams
     resources :standings
+    resources :top_scorers
   end
   root 'home#index'
   devise_for :users, controllers: {

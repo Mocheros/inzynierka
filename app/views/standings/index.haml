@@ -16,7 +16,7 @@
       %tr
         %th{scope: "row"}
           = i+1
-        %td= standing.name
+        %td= link_to standing.name, tournament_team_path(@tournament.id, standing.id)
         %td= standing.games_played
         %td= standing.wins
         %td= standing.draws

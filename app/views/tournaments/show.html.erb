@@ -1,3 +1,4 @@
 <%= render @tournament %>
 
 <%= link_to "Tabela", tournament_standings_path(@tournament.id) %>
+<%= link_to "Strzelcy", tournament_top_scorers_path(@tournament.id) %>

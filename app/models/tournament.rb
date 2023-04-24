@@ -103,7 +103,7 @@ class Tournament < ApplicationRecord
     #   game.save
     # end
     # binding.pry
-    # rounds = Round.includes(:games).where(tournament_id: t_id).group('rounds.id').having("COUNT(games.id) != #{matches_per_round}").pluck(:id)
+    rounds = Round.includes(:games).where(tournament_id: t_id).group('rounds.id').having("COUNT(games.id) != #{matches_per_round}").pluck(:id)
     # rounds.each do |round|
     #   all_games = Game.where(tournament_id: t_id, round_id: nil)
     #   all_games.shuffle.each do |game|

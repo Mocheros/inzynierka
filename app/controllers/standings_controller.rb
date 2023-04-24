@@ -2,7 +2,6 @@ class StandingsController < ApplicationController
 
   def index
     @standings = Team.where(tournament_id: tournament_id)
-    # @standings = Team.all
   end
 
   private
