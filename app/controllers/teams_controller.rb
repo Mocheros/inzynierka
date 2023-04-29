@@ -4,10 +4,12 @@ class TeamsController < ApplicationController
   # GET /teams or /teams.json
   def index
     @teams = Team.all
+    @tournament = Tournament.find(params['tournament_id'])
   end
 
   # GET /teams/1 or /teams/1.json
   def show
+    @tournament = Tournament.find(params['tournament_id'])
   end
 
   # GET /teams/new

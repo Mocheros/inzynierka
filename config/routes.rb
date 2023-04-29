@@ -3,8 +3,9 @@ Rails.application.routes.draw do
     resources :single_stats
     resources :games
     resources :rounds
-    resources :players
-    resources :teams
+    resources :teams do
+      resources :players
+    end
     resources :standings
     resources :top_scorers
   end

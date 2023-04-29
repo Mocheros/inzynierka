@@ -1,5 +1,4 @@
 class PlayersController < ApplicationController
-  before_action :set_player, only: %i[ show edit update destroy ]
 
   # GET /players or /players.json
   def index
@@ -12,7 +11,8 @@ class PlayersController < ApplicationController
 
   # GET /players/new
   def new
-    @player = Player.new
+    @players = Array.new(30) { Player.new }
+    render :new, locals: { tournament: tournament, team: team }
   end
 
   # GET /players/1/edit
@@ -21,16 +21,15 @@ class PlayersController < ApplicationController
 
   # POST /players or /players.json
   def create
-    @player = Player.new(player_params)
-
-    respond_to do |format|
-      if @player.save
-        format.html { redirect_to player_url(@player), notice: "Player was successfully created." }
-        format.json { render :show, status: :created, location: @player }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @player.errors, status: :unprocessable_entity }
+    @players = params[:players].values.pluck(:name, :shirt_number, :position).map do |player_params_loop|
+      unless player_params_loop[0].empty?
+        Player.create(name: player_params_loop[0], shirt_number: player_params_loop[1], position: player_params_loop[2], team_id: team.id)
       end
+    end
+    if @players.compact.all?(&:persisted?)
+      redirect_to tournament_team_path(tournament, team), notice: 'Players successfully created.'
+    else
+      render :new, locals: { tournament: tournament, team: team }
     end
   end
 
@@ -59,8 +58,17 @@ class PlayersController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_player
-      @player = Player.find(params[:id])
+
+    def tournament
+      @tournament ||= Tournament.find(params[:tournament_id])
+    end
+
+    def team
+      @team ||= Team.find(params[:team_id])
+    end
+
+    def player
+      @player ||= Player.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.

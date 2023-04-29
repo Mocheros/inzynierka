@@ -1,0 +1,8 @@
+%p{style: "color: green"}= notice
+= render @team
+%div
+  = link_to "Edit this team", edit_tournament_team_path(@team)
+  |
+  \#{link_to "Back to teams", tournament_teams_path}
+  |
+  \#{link_to "Dodaj zawodników", new_tournament_team_player_path(@tournament, @team)}

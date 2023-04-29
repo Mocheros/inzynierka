@@ -14,6 +14,6 @@
         %th{scope: "row"}
           = i+1
         %td= scorer.name
-        %td= scorer.team_id
+        %td= link_to scorer.team.name, tournament_team_path(@tournament.id, scorer.team.id)
         %td= scorer.goals
         %td= scorer.assists
