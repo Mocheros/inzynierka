@@ -1,0 +1,35 @@
+= form_for [@tournament, @game] do |form|
+  - if game.errors.any?
+    %div{style: "color: red"}
+      %h2
+        = pluralize(game.errors.count, "error")
+        prohibited this game from being saved:
+      %ul
+        - game.errors.each do |error|
+          %li= error.full_message
+  %div
+    = form.label :home_team_id, style: "display: block"
+    = form.number_field :home_team_id
+  %div
+    = form.label :away_team_id, style: "display: block"
+    = form.number_field :away_team_id
+  %div
+    = form.label :home_score, style: "display: block"
+    = form.number_field :home_score
+  %div
+    = form.label :away_score, style: "display: block"
+    = form.number_field :away_score
+  %div
+    = form.label :location, style: "display: block"
+    = form.text_field :location
+  %div
+    = form.label :date, style: "display: block"
+    = form.datetime_field :date
+  %div
+    = form.label :status, style: "display: block"
+    = form.text_field :status
+  %div
+    = form.label :round_id, style: "display: block"
+    = form.number_field :round_id
+  %div
+    = form.submit

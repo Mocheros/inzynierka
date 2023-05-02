@@ -8,6 +8,8 @@ class GamesController < ApplicationController
 
   # GET /games/1 or /games/1.json
   def show
+    @game = Game.find(params[:id])
+    @tournament = Tournament.find(params[:tournament_id])
   end
 
   # GET /games/new
@@ -17,6 +19,8 @@ class GamesController < ApplicationController
 
   # GET /games/1/edit
   def edit
+    @game = Game.find(params[:id])
+    @tournament = Tournament.find(params[:tournament_id])
   end
 
   # POST /games or /games.json
@@ -25,7 +29,7 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        format.html { redirect_to game_url(@game), notice: "Game was successfully created." }
+        format.html { redirect_to tournament_game_path(@tournament, @game), notice: "Game was successfully created." }
         format.json { render :show, status: :created, location: @game }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -36,9 +40,12 @@ class GamesController < ApplicationController
 
   # PATCH/PUT /games/1 or /games/1.json
   def update
+    @game = Game.find(params[:id])
+    @tournament = Tournament.find(params[:tournament_id])
+    
     respond_to do |format|
       if @game.update(game_params)
-        format.html { redirect_to game_url(@game), notice: "Game was successfully updated." }
+        format.html { redirect_to tournament_game_path(@tournament, @game), notice: "Game was successfully updated." }
         format.json { render :show, status: :ok, location: @game }
       else
         format.html { render :edit, status: :unprocessable_entity }

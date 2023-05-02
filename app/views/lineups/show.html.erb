@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @lineup %>
+
+<div>
+  <%= link_to "Edit this lineup", edit_lineup_path(@lineup) %> |
+  <%= link_to "Back to lineups", lineups_path %>
+
+  <%= button_to "Destroy this lineup", @lineup, method: :delete %>
+</div>

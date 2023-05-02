@@ -1,0 +1,5 @@
+= render @game
+%div
+  = link_to "Edit this game", edit_tournament_game_path(@tournament, @game)
+  = link_to "Składy", new_tournament_game_lineup_path(@tournament, @game)
+  = link_to "Back to games", tournament_games_path

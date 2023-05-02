@@ -1,0 +1,61 @@
+= form_tag tournament_game_lineups_path(@tournament, @game, @lineup), data: {turbo: false} do
+  %table.table.table-hover
+    %thead
+      %tr
+        %th{scope: "col"} Wybierz bramkarza
+    %tbody
+      - @goalkeepers.each do |goalkeeper|
+        %tr
+          %td
+            = radio_button_tag 'goalkeeper_id', goalkeeper.id, @goalkeeper == goalkeeper, class: "radio_box"
+            = goalkeeper.name
+  %table.table.table-hover
+    %thead
+      %tr
+        %th{scope: "col"} Wybierz zawodników z pola
+    %tbody
+      - @field_players.each_with_index do |field_player, i|
+        %tr
+          %td
+            = check_box_tag "field_players[#{i}][id]", field_player.id, @field_player == field_player, class: "checkboxes"
+            = field_player.name
+  %div
+    = submit_tag "Dodaj zawodników", id: "add_starting_players"
+%h5#MOTFORMERROR
+
+:javascript
+  $(document).ready(function(){
+
+    var players_left;
+    var if_checked=false;
+    var seats=[];
+    $(window).on( "load", function() {
+      document.getElementById("add_starting_players").disabled = true;
+    });
+
+    $('input:radio[name="goalkeeper_id"]').change(function(){
+      if (this.checked) {
+        if_checked = true;
+      }
+    });
+
+    $(".checkboxes").on("click",function(){
+      var id=$(this).attr("id");
+      if($(this).is(":checked")){
+        seats.push(id);
+      }else{
+        seats.splice(seats.indexOf(id),1);
+      }});
+
+    $(".checkboxes, .radio_box").on("change",function(){
+      if (seats.length == 3 && if_checked == true) {
+        $("#MOTFORMERROR").html("");
+        document.getElementById("add_starting_players").disabled = false;
+      } else {
+        document.getElementById("add_starting_players").disabled = true;
+        players_left = +10 - +seats.length;
+        $("#MOTFORMERROR").css('color', 'red');
+        $("#MOTFORMERROR").html("Wybierz jeszcze " + players_left + " zawodników");
+      }
+    });
+  });

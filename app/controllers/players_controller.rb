@@ -11,7 +11,7 @@ class PlayersController < ApplicationController
 
   # GET /players/new
   def new
-    @players = Array.new(30) { Player.new }
+    @players = Array.new(20) { Player.new }
     render :new, locals: { tournament: tournament, team: team }
   end
 
@@ -26,6 +26,7 @@ class PlayersController < ApplicationController
         Player.create(name: player_params_loop[0], shirt_number: player_params_loop[1], position: player_params_loop[2], team_id: team.id)
       end
     end
+    
     if @players.compact.all?(&:persisted?)
       redirect_to tournament_team_path(tournament, team), notice: 'Players successfully created.'
     else
