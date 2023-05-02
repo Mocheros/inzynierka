@@ -12,8 +12,13 @@ class LineupsController < ApplicationController
 
   # GET /lineups/new
   def new
-    @starting_lineup = Array.new(11) { Lineup.new }
-    render :new, locals: { tournament: tournament, game: game, goalkeepers: goalkeepers, field_players: field_players }
+    if params[:format] == "subs"
+      @starting_lineup ||= Player.joins(:lineups).where("lineups.game_id = ? AND lineups.team_id = ? AND lineups.lineup_type = ?", game.id, current_team.id, "starting")
+      @all_team_players ||= Player.where(team_id: current_team.id)
+      @possible_subs ||= @all_team_players - @starting_lineup
+    end
+    @new_starting_lineup = Array.new(11) { Lineup.new }
+    render :new, locals: { tournament: tournament, game: game, goalkeepers: goalkeepers, field_players: field_players, current_team: current_team }
   end
 
   # GET /lineups/1/edit
@@ -22,16 +27,29 @@ class LineupsController < ApplicationController
 
   # POST /lineups or /lineups.json
   def create
-    goalkeeper = Player.find_by(id: params[:goalkeeper_id])
-    Lineup.create(game_id: game.id, player_id: goalkeeper.id, team_id: goalkeeper.team_id, lineup_type: "starting")
-    starting_field_players = params[:field_players].values.pluck(:id).map do |starting_field_player|
-      Lineup.create(game_id: game.id, player_id: starting_field_player, team_id: goalkeeper.team_id, lineup_type: "starting")
-    end
+    if params[:goalkeeper_id].present?
+      goalkeeper = Player.find_by(id: params[:goalkeeper_id])
+      Lineup.create(game_id: game.id, player_id: goalkeeper.id, team_id: current_team.id, lineup_type: "starting")
+      starting_field_players = params[:field_players].values.pluck(:id).map do |starting_field_player|
+        Lineup.create(game_id: game.id, player_id: starting_field_player, team_id: current_team.id, lineup_type: "starting")
+      end
 
-    if (goalkeeper.save && starting_field_players.compact.all?(&:persisted?))
-      redirect_to tournament_game_path(tournament, game), notice: 'Lineup was successfully created.'
+      if (goalkeeper.save && starting_field_players.compact.all?(&:persisted?))
+        redirect_to new_tournament_game_team_lineup_path(tournament, game, current_team.id, "subs"), notice: 'Lineup was successfully created.'
+      else
+        render :new, locals: { tournament: tournament, game: game, goalkeepers: goalkeepers, field_players: field_players, current_team: current_team }, status: :unprocessable_entity
+      end
+
     else
-      render :new, locals: { tournament: tournament, game: game, goalkeepers: goalkeepers, field_players: field_players }, status: :unprocessable_entity
+      sub_players = params[:subs].values.pluck(:id).map do |sub_player|
+        Lineup.create(game_id: game.id, player_id: sub_player, team_id: current_team.id, lineup_type: "substitute")
+      end
+
+      if (sub_players.compact.all?(&:persisted?))
+        redirect_to tournament_game_path(tournament, game), notice: 'Lineup was successfully created.'
+      else
+        render :new, locals: { tournament: tournament, game: game, goalkeepers: goalkeepers, field_players: field_players, current_team: current_team }, status: :unprocessable_entity
+      end
     end
   end
 
@@ -69,11 +87,15 @@ class LineupsController < ApplicationController
     end
 
     def goalkeepers
-      @goalkeepers ||= Player.where(team_id: @game.home_team_id, position: "Bramkarz")
+      @goalkeepers ||= Player.where(team_id: current_team.id, position: "Bramkarz")
     end
 
     def field_players
-      @field_players ||= Player.where(team_id: @game.home_team_id).where.not(position: "Bramkarz")
+      @field_players ||= Player.where(team_id: current_team.id).where.not(position: "Bramkarz")
+    end
+
+    def current_team
+      @current_team ||= Team.find(params[:team_id])
     end
 
     # Only allow a list of trusted parameters through.

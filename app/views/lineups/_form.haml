@@ -1,27 +1,42 @@
-= form_tag tournament_game_lineups_path(@tournament, @game, @lineup), data: {turbo: false} do
-  %table.table.table-hover
-    %thead
-      %tr
-        %th{scope: "col"} Wybierz bramkarza
-    %tbody
-      - @goalkeepers.each do |goalkeeper|
+- if params[:format] == "starting"
+  = form_tag tournament_game_team_lineups_path(@tournament, @game, @current_team, @lineup), data: {turbo: false} do
+    %table.table.table-hover
+      %thead
         %tr
-          %td
-            = radio_button_tag 'goalkeeper_id', goalkeeper.id, @goalkeeper == goalkeeper, class: "radio_box"
-            = goalkeeper.name
-  %table.table.table-hover
-    %thead
-      %tr
-        %th{scope: "col"} Wybierz zawodników z pola
-    %tbody
-      - @field_players.each_with_index do |field_player, i|
+          %th{scope: "col"} Wybierz bramkarza
+      %tbody
+        - @goalkeepers.each do |goalkeeper|
+          %tr
+            %td
+              = radio_button_tag 'goalkeeper_id', goalkeeper.id, @goalkeeper == goalkeeper, class: "radio_box"
+              = goalkeeper.name
+    %table.table.table-hover
+      %thead
         %tr
-          %td
-            = check_box_tag "field_players[#{i}][id]", field_player.id, @field_player == field_player, class: "checkboxes"
-            = field_player.name
-  %div
-    = submit_tag "Dodaj zawodników", id: "add_starting_players"
-%h5#MOTFORMERROR
+          %th{scope: "col"} Wybierz zawodników z pola
+      %tbody
+        - @field_players.each_with_index do |field_player, i|
+          %tr
+            %td
+              = check_box_tag "field_players[#{i}][id]", field_player.id, @field_player == field_player, class: "checkboxes"
+              = field_player.name
+    %div
+      = submit_tag "Zatwiedź pierwszy skład", id: "add_starting_players"
+  %h5#MOTFORMERROR
+- elsif params[:format] == "subs"
+  = form_tag tournament_game_team_lineups_path(@tournament, @game, @current_team, @lineup), data: {turbo: false} do
+    %table.table.table-hover
+      %thead
+        %tr
+          %th{scope: "col"} Wybierz rezerwowych
+      %tbody
+        - @possible_subs.each_with_index do |sub, i|
+          %tr
+            %td
+              = check_box_tag "subs[#{i}][id]", sub.id, @sub == sub
+              = sub.name
+    %div
+      = submit_tag "Zatwierdź ławke rezerwowych"
 
 :javascript
   $(document).ready(function(){
@@ -48,7 +63,7 @@
       }});
 
     $(".checkboxes, .radio_box").on("change",function(){
-      if (seats.length == 3 && if_checked == true) {
+      if (seats.length == 10 && if_checked == true) {
         $("#MOTFORMERROR").html("");
         document.getElementById("add_starting_players").disabled = false;
       } else {

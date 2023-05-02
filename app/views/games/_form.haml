@@ -1,4 +1,4 @@
-= form_for [@tournament, @game] do |form|
+= form_for [@tournament, @game, @team] do |form|
   - if game.errors.any?
     %div{style: "color: red"}
       %h2
