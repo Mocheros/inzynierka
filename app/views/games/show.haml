@@ -5,4 +5,6 @@
     = link_to "Składy gospodarzy", new_tournament_game_team_lineup_path(@tournament, @game, @game.home_team_id, "starting")
   - unless Lineup.where(game_id: @game.id, team_id: @game.away_team_id).present?
     = link_to "Składy gości", new_tournament_game_team_lineup_path(@tournament, @game, @game.away_team_id, "starting")
+  = link_to "Dodaj wydarzenie gospodarzy", new_tournament_game_team_single_stat_path(@tournament, @game, @game.home_team_id)
+  = link_to "Dodaj wydarzenie gości", new_tournament_game_team_single_stat_path(@tournament, @game, @game.away_team_id)
   = link_to "Back to games", tournament_games_path

@@ -30,11 +30,11 @@
         %tr
           %th{scope: "col"} Wybierz rezerwowych
       %tbody
-        - @possible_subs.each_with_index do |sub, i|
+        - @possible_subs.each_with_index do |sub_player, i|
           %tr
             %td
-              = check_box_tag "subs[#{i}][id]", sub.id, @sub == sub
-              = sub.name
+              = check_box_tag "subs[#{i}][id]", sub_player.id, @sub_player == sub_player
+              = sub_player.name
     %div
       = submit_tag "Zatwierdź ławke rezerwowych"
 

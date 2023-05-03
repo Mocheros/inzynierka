@@ -1,0 +1,26 @@
+= form_tag tournament_game_team_single_stats_path(@tournament, @game, @current_team, @stat), data: {turbo: false} do
+  %div
+    - SingleStat.stat_types.each do |stat_type|
+      = radio_button_tag 'stat_type', stat_type[0], @stat_type == stat_type, class: "#{stat_type[0]}"
+      = stat_type[1]
+  %div
+    = number_field_tag 'minute'
+  %div.scorer
+    Wybierz zawodnika
+    = select_tag 'first_player', options_for_select(@players), prompt: ""
+  %div.assistant
+    Wybierz asystenta
+    = select_tag 'second_player', options_for_select(@players), prompt: ""
+  = submit_tag "Dodaj wydarzenie"
+
+:javascript
+  $('input[type=radio][name=stat_type]').change(function() {
+      console.log(this.value);
+      if(this.value == "goal"){
+        $(".assistant").css('display', '');
+      }
+      else{
+        $(".assistant").css('display', 'none');
+      }
+
+  });

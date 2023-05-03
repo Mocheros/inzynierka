@@ -1,5 +1,4 @@
 class SingleStatsController < ApplicationController
-  before_action :set_single_stat, only: %i[ show edit update destroy ]
 
   # GET /single_stats or /single_stats.json
   def index
@@ -13,6 +12,8 @@ class SingleStatsController < ApplicationController
   # GET /single_stats/new
   def new
     @single_stat = SingleStat.new
+    @players = Player.where(team_id: current_team.id).all.to_a.map{ |c| [c.name, c.id]}
+    render :new, locals: { tournament: tournament, game: game, current_team: current_team }
   end
 
   # GET /single_stats/1/edit
@@ -21,16 +22,17 @@ class SingleStatsController < ApplicationController
 
   # POST /single_stats or /single_stats.json
   def create
-    @single_stat = SingleStat.new(single_stat_params)
+    @players = Player.where(team_id: current_team.id).all.to_a.map{ |c| [c.name, c.id]}
+    if params[:second_player].present?
+      @single_stat = SingleStat.create(game_id: game.id, team_id: current_team.id, first_player_id: params[:first_player], second_player_id: params[:second_player], minute: params[:minute], stat_type: params[:stat_type])
+    else
+      @single_stat = SingleStat.create(game_id: game.id, team_id: current_team.id, first_player_id: params[:first_player], minute: params[:minute], stat_type: params[:stat_type])
+    end
 
-    respond_to do |format|
-      if @single_stat.save
-        format.html { redirect_to single_stat_url(@single_stat), notice: "Single stat was successfully created." }
-        format.json { render :show, status: :created, location: @single_stat }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @single_stat.errors, status: :unprocessable_entity }
-      end
+    if @single_stat.save
+      redirect_to tournament_game_path(tournament, game), notice: "Single stat was successfully created."
+    else
+      render :new, locals: { tournament: tournament, game: game, current_team: current_team }
     end
   end
 
@@ -59,8 +61,16 @@ class SingleStatsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_single_stat
-      @single_stat = SingleStat.find(params[:id])
+    def game
+      @game ||= Game.find(params[:game_id])
+    end
+
+    def tournament
+      @tournament ||= Tournament.find(params[:tournament_id])
+    end
+
+    def current_team
+      @current_team ||= Team.find(params[:team_id])
     end
 
     # Only allow a list of trusted parameters through.

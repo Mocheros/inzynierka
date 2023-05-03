@@ -67,8 +67,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_30_204546) do
   create_table "single_stats", force: :cascade do |t|
     t.integer "game_id"
     t.integer "team_id"
-    t.integer "player_id"
-    t.integer "assistant_id"
+    t.integer "first_player_id"
+    t.integer "second_player_id"
     t.integer "minute"
     t.string "stat_type"
     t.datetime "created_at", null: false
