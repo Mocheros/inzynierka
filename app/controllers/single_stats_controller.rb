@@ -29,6 +29,19 @@ class SingleStatsController < ApplicationController
       @single_stat = SingleStat.create(game_id: game.id, team_id: current_team.id, first_player_id: params[:first_player], minute: params[:minute], stat_type: params[:stat_type])
     end
 
+    if params[:stat_type] == "goal"
+      Player.find(params[:first_player]).increment!(:goals, 1)
+      if params[:second_player].present?
+        Player.find(params[:second_player]).increment!(:assists, 1)
+      end
+    elsif params[:stat_type] == "yellow_card"
+      Player.find(params[:first_player]).increment!(:yellow_cards, 1)
+    elsif params[:stat_type] == "red_card"
+      Player.find(params[:first_player]).increment!(:red_cards, 1)
+    elsif params[:stat_type] == "subs"
+      Player.find(params[:second_player]).increment!(:games_played, 1)
+    end
+
     if @single_stat.save
       redirect_to tournament_game_path(tournament, game), notice: "Single stat was successfully created."
     else

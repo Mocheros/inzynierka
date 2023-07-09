@@ -11,6 +11,7 @@
       %th{scope: "col"} Przegrane
       %th{scope: "col"} Bramki
       %th{scope: "col"} Punkty
+      %th{scope: "col"} Ulubione
   %tbody
     - @standings.each_with_index do |standing, i|
       %tr
@@ -25,3 +26,16 @@
           = standing.goals_for
           \: #{standing.goals_against}
         %td= standing.points
+        %td
+          = form_with(url: toggle_favorite_favorite_teams_users_path, method: :post, remote: true) do |form|
+            = form.hidden_field :team_id, value: standing.id
+            = form.button(type: "submit") do
+              %span.star-icon{"data-team-id" => standing.id}
+                - if current_user.favorite_teams.include?(standing)
+                  %i.fas.fa-star
+                  / Wypełniona gwiazdka
+                - else
+                  %i.far.fa-star
+                  / Pusta gwiazdka
+
+%script{crossorigin: "anonymous", src: "https://kit.fontawesome.com/142bbe0175.js"}

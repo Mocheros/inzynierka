@@ -3,13 +3,19 @@ class TeamsController < ApplicationController
 
   # GET /teams or /teams.json
   def index
-    @teams = Team.all
     @tournament = Tournament.find(params['tournament_id'])
+    @teams = Team.all
+    respond_to do |format|
+      format.html
+      format.js
+    end
   end
 
   # GET /teams/1 or /teams/1.json
   def show
     @tournament = Tournament.find(params['tournament_id'])
+    position_order = {'Bramkarz' => 0,'Obrońca' => 1,'Pomocnik' => 2,'Napastnik' => 3}
+    @players = Player.where(team_id: set_team.id).order('name asc').sort_by { |p| position_order[p.position] }
   end
 
   # GET /teams/new

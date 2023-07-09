@@ -4,23 +4,36 @@
       = radio_button_tag 'stat_type', stat_type[0], @stat_type == stat_type, class: "#{stat_type[0]}"
       = stat_type[1]
   %div
+    Minuta
     = number_field_tag 'minute'
-  %div.scorer
-    Wybierz zawodnika
+  %div.first_player
+    %span#player_1_text
     = select_tag 'first_player', options_for_select(@players), prompt: ""
-  %div.assistant
-    Wybierz asystenta
+  %div.second_player
+    %span#player_2_text
     = select_tag 'second_player', options_for_select(@players), prompt: ""
   = submit_tag "Dodaj wydarzenie"
 
 :javascript
-  $('input[type=radio][name=stat_type]').change(function() {
-      console.log(this.value);
-      if(this.value == "goal"){
-        $(".assistant").css('display', '');
-      }
-      else{
-        $(".assistant").css('display', 'none');
-      }
+  $(document).ready(function() {
+    $(".second_player").hide(); // Ukryj div o klasie "assistant" na początku
+    $(".first_player").hide(); // Ukryj div o klasie "assistant" na początku
 
+    $('input[type=radio][name=stat_type]').change(function() {
+      console.log(this.value);
+      if (this.value == "goal") {
+        $(".first_player").show(); // Pokaż div o klasie "assistant", jeśli value jest ustawione na "goal"
+        $(".second_player").show(); // Pokaż div o klasie "assistant", jeśli value jest ustawione na "goal"
+        $("#player_1_text").text("Strzelec");
+        $("#player_2_text").text("Asystent");
+      } else if (this.value == "subs") {
+        $(".first_player").show(); // Pokaż div o klasie "assistant", jeśli value jest ustawione na "goal"
+        $(".second_player").show(); // Pokaż div o klasie "assistant", jeśli value jest ustawione na "goal"
+        $("#player_1_text").text("Zawodnik schodzący");
+        $("#player_2_text").text("Zawodnik wchodzący");
+      } else {
+        $(".second_player").hide(); // Ukryj div o klasie "assistant" w przeciwnym przypadku
+        $("#player_1_text").text("Zawodnik");
+      }
+    });
   });

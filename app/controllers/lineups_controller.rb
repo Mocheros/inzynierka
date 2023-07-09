@@ -30,8 +30,10 @@ class LineupsController < ApplicationController
     if params[:goalkeeper_id].present?
       goalkeeper = Player.find_by(id: params[:goalkeeper_id])
       Lineup.create(game_id: game.id, player_id: goalkeeper.id, team_id: current_team.id, lineup_type: "starting")
+      Player.find(params[:goalkeeper_id]).increment!(:games_played, 1)
       starting_field_players = params[:field_players].values.pluck(:id).map do |starting_field_player|
         Lineup.create(game_id: game.id, player_id: starting_field_player, team_id: current_team.id, lineup_type: "starting")
+        Player.find(starting_field_player).increment!(:games_played, 1)
       end
 
       if (goalkeeper.save && starting_field_players.compact.all?(&:persisted?))
