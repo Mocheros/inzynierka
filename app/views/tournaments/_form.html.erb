@@ -27,6 +27,13 @@
   </div>
 
   <div>
+    <%= form.label :private, style: "display: block" %>
+    <%= form.check_box :private %>
+  </div>
+
+  <%= form.hidden_field :creator_id, value: current_user.id %>
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>

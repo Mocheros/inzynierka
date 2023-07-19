@@ -7,11 +7,17 @@ class TournamentsController < ApplicationController
   end
 
   # GET /tournaments/1 or /tournaments/1.json
-  def show
+  def last_tournaments
+  end
+
+  def favorites
   end
 
   # GET /tournaments/new
   def new
+    if current_user == nil
+      redirect_to new_user_session_path
+    end
     @tournament = Tournament.new
   end
 
@@ -75,6 +81,6 @@ class TournamentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tournament_params
-      params.require(:tournament).permit(:name, :format, :number_of_teams)
+      params.require(:tournament).permit(:name, :format, :number_of_teams, :private, :creator_id)
     end
 end

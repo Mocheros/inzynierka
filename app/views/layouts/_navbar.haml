@@ -1,0 +1,31 @@
+%nav.navbar.navbar-expand.sticky-top.custom-navbar{style: "background-color: #05486B;"}
+  .container-fluid
+    .logo-container-nav
+      = link_to root_path, class: "navbar-brand" do
+        = image_tag("logo.png", alt: "", height: "80", width: "220")
+    #navbarNavDropdown.collapse.buttons-container-nav
+      %ul.navbar-nav
+        %li.nav-item
+          = link_to "Utwórz turniej", new_tournament_path, class: "navbar-brand"
+        %li.nav-item
+          = link_to "Ostatnie Turnieje", last_tournaments_tournaments_path, class: "navbar-brand"
+        - if current_user
+          %li.nav-item.dropdown
+            %a#navbarScrollingDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+              %i.bi.bi-person-circle
+            %ul.dropdown-menu{"aria-labelledby" => "navbarScrollingDropdown"}
+              %li
+                = link_to "Moje konto", root_path, class: "dropdown-item"
+              %li
+                = link_to "Moje turnieje", root_path, class: "dropdown-item"
+              %li
+                = link_to "Ulubione drużyny", root_path, class: "dropdown-item"
+              %li
+                = link_to "Ulubieni zawodnicy", root_path, class: "dropdown-item"
+              %li
+                %hr.dropdown-divider/
+              %li
+                = link_to "Wyloguj", destroy_user_session_path, class: "dropdown-item"
+        - else
+          %li.nav-item
+            = link_to "Zaloguj się", new_user_session_path, class: "btn btn-primary"

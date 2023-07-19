@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
   resources :tournaments do
+    collection do 
+      get 'favorites'
+      get 'last_tournaments'
+    end
     resources :games do
       resources :teams do
         resources :lineups
