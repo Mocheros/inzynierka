@@ -11,7 +11,7 @@
           = link_to "Ostatnie Turnieje", last_tournaments_tournaments_path, class: "navbar-brand"
         - if current_user
           %li.nav-item.dropdown
-            %a#navbarScrollingDropdown.nav-link.dropdown-toggle{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
+            %a#navbarScrollingDropdown.nav-link.dropdown{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
               %i.bi.bi-person-circle
             %ul.dropdown-menu{"aria-labelledby" => "navbarScrollingDropdown"}
               %li
@@ -28,4 +28,4 @@
                 = link_to "Wyloguj", destroy_user_session_path, class: "dropdown-item"
         - else
           %li.nav-item
-            = link_to "Zaloguj się", new_user_session_path, class: "btn btn-primary"
+            = link_to "Zaloguj się", new_user_session_path, class: "button"
