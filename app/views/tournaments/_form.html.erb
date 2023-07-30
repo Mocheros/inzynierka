@@ -10,30 +10,30 @@
       </ul>
     </div>
   <% end %>
+      <%= form.text_field :name, placeholder: "Nazwa", style: "margin-top: 30px;" %>
+<%= form.select :format, options_for_select(["System ligowy", "System ligowy z rewanżami"], selected: nil), include_blank: "Rodzaj turnieju" %>
+      <%= form.select :number_of_teams, options_for_select([["Ilość drużyn", nil]] + (1..64).to_a.map { |num| [num, num] }, selected: nil, disabled: nil) %>
 
-  <div>
-    <%= form.label :name, style: "display: block" %>
-    <%= form.text_field :name %>
-  </div>
 
-  <div>
-    <%= form.label :format, style: "display: block" %>
-    <%= form.select :format, options_for_select(["System ligowy", "System ligowy z rewanżami"]) %>
-  </div>
+    <label class="toggle" for="uniqueID">
+			<%= form.check_box :private, class: 'toggle__input', id: 'uniqueID' %>
+			<span class="toggle-track">
+				<span class="toggle-indicator">
+					<span class="checkMark">
+						<svg viewBox="0 0 24 24" id="ghq-svg-check" role="presentation" aria-hidden="true">
+							<path d="M9.86 18a1 1 0 01-.73-.32l-4.86-5.17a1.001 1.001 0 011.46-1.37l4.12 4.39 8.41-9.2a1 1 0 111.48 1.34l-9.14 10a1 1 0 01-.73.33h-.01z"></path>
+						</svg>
+					</span>
+				</span>
+			</span>
+			<h6>Turniej prywatny</h6>
+		</label>
 
-  <div>
-    <%= form.label :number_of_teams, style: "display: block" %>
-    <%= form.select :number_of_teams, options_for_select(1..64) %>
-  </div>
+    <%= form.hidden_field :creator_id, value: current_user.id %>
 
-  <div>
-    <%= form.label :private, style: "display: block" %>
-    <%= form.check_box :private %>
-  </div>
+    <div>
+      <%= form.button "Utwórz turniej" %>
+    </div>
 
-  <%= form.hidden_field :creator_id, value: current_user.id %>
 
-  <div>
-    <%= form.submit %>
-  </div>
 <% end %>

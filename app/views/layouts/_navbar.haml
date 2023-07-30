@@ -8,16 +8,16 @@
         %li.nav-item
           = link_to "Utwórz turniej", new_tournament_path, class: "navbar-brand"
         %li.nav-item
-          = link_to "Ostatnie Turnieje", last_tournaments_tournaments_path, class: "navbar-brand"
+          = link_to "Ostatnie turnieje", last_tournaments_tournaments_path, class: "navbar-brand"
         - if current_user
+          %li.nav-item
+            = link_to "Moje turnieje", root_path, class: "navbar-brand"
           %li.nav-item.dropdown
             %a#navbarScrollingDropdown.nav-link.dropdown{"aria-expanded" => "false", "data-bs-toggle" => "dropdown", href: "#", role: "button"}
               %i.bi.bi-person-circle
             %ul.dropdown-menu{"aria-labelledby" => "navbarScrollingDropdown"}
               %li
                 = link_to "Moje konto", root_path, class: "dropdown-item"
-              %li
-                = link_to "Moje turnieje", root_path, class: "dropdown-item"
               %li
                 = link_to "Ulubione drużyny", root_path, class: "dropdown-item"
               %li

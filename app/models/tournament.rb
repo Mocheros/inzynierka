@@ -3,6 +3,9 @@ class Tournament < ApplicationRecord
   has_many :rounds
   has_many :games
 
+  validates :format, presence: true
+  validates :number_of_teams, presence: true
+
 
   def self.league_single_game_generator(teams_array, t_id)
 

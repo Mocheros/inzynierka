@@ -1,19 +1,22 @@
-= link_to "Turniej", tournament_path(@tournament.id)
-
-%table.table.table-hover.table-striped
-  %thead
-    %tr
-      %th{scope: "col"} #
-      %th{scope: "col"} Zawodnik
-      %th{scope: "col"} Drużyna
-      %th{scope: "col"} Gole
-      %th{scope: "col"} Asysty
-  %tbody
-    - @top_scorers.each_with_index do |scorer, i|
+.standings-table
+  %table
+    %thead
       %tr
-        %th{scope: "row"}
-          = i+1
-        %td= scorer.name
-        %td= link_to scorer.team.name, tournament_team_path(@tournament.id, scorer.team.id)
-        %td= scorer.goals
-        %td= scorer.assists
+        %th{ style: 'width: 3%;' } #
+        %th{ style: 'text-align: left; width: 35%;' } Zawodnik
+        %th{ style: 'text-align: left; width: 35%;' } Drużyna
+        %th{ style: 'width: 12%;' } Gole
+        %th{ style: 'width: 12%;' } Asysty
+    %tbody
+      - @top_scorers.each_with_index do |scorer, i|
+        %tr
+          %td{ style: 'font-weight: bold; width: 3%;' }
+            = i+1
+          %td{ style: 'text-align: left; width: 35%;' }
+            = scorer.name
+          %td{ style: 'text-align: left; width: 35%;' }
+            = link_to scorer.team.name, tournament_team_path(@tournament.id, scorer.team.id)
+          %td{ style: 'width: 12%;' }
+            = scorer.goals
+          %td{ style: 'width: 12%;' }
+            = scorer.assists

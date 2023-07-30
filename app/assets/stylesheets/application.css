@@ -11,10 +11,10 @@ body{
   display: flex !important;
 }
 .navbar-brand{
-  color: #FCF6F5 ;
+  color: #FCF6F5;
 }
 .navbar-brand:hover{
-  color: #5CDB95 ;
+  color: #5CDB95;
 }
 .navbar-nav{
   flex-direction: row !important;
@@ -33,6 +33,7 @@ body{
 }
 .bi-person-circle{
   font-size: 30px;
+	color: #5CDB95;
 }
 .dropdown-toggle{
   padding: 0px !important;
@@ -402,4 +403,268 @@ body{
 	width: 50%;
 	transform: translateX(100%);
 	transition: transform 0.6s ease-in-out;
+}
+.toggle {
+	align-items: center;
+	border-radius: 100px;
+	display: flex;
+	font-weight: 700;
+	margin-bottom: 16px;
+	margin-top: 16px;
+}
+.toggle__input {
+	clip: rect(0 0 0 0);
+	clip-path: inset(50%);
+	height: 1px;
+	overflow: hidden;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+.toggle__input:not([disabled]):active + .toggle-track, .toggle__input:not([disabled]):focus + .toggle-track {
+	border: 1px solid transparent;
+	box-shadow: 0px 0px 0px 2px #2BAE66;
+}
+.toggle__input:disabled + .toggle-track {
+	cursor: not-allowed;
+	opacity: 0.7;
+}
+.toggle-track {
+	background: #fff;
+	border: 1px solid #2BAE66;
+	border-radius: 100px;
+	cursor: pointer;
+	display: flex;
+	height: 30px;
+	margin-right: 12px;
+	position: relative;
+	width: 60px;
+}
+.toggle-indicator {
+	align-items: center;
+	background: #2BAE66;
+	border-radius: 24px;
+	bottom: 2px;
+	display: flex;
+	height: 24px;
+	justify-content: center;
+	left: 2px;
+	outline: solid 2px transparent;
+	position: absolute;
+	transition: .15s;
+	width: 24px;
+}
+.checkMark {
+	fill: #fff;
+	height: 20px;
+	width: 20px;
+	opacity: 0;
+	transition: opacity .15s ease-in-out;
+}
+.toggle__input:checked + .toggle-track .toggle-indicator {
+	background: #2BAE66;
+	transform: translateX(30px);
+}
+.toggle__input:checked + .toggle-track .toggle-indicator .checkMark {
+	opacity: 1;
+	transition: opacity .15s ease-in-out;
+}
+@media screen and (-ms-high-contrast: active) {
+	.toggle-track {
+		border-radius: 0;
+ }
+}
+
+select {
+	appearance: none;
+	border: none;
+	width: 100%;
+	height: 3em;
+	padding: 12px 15px;
+	margin: 8px 0 !important;
+	background: url(http://cdn.onlinewebfonts.com/svg/img_295694.svg) no-repeat right 0.8em center / 1.4em;
+	background-color: #eee;
+	border-radius: 0.25em;
+	cursor: pointer;
+}
+select option {
+	color: inherit;
+	background-color: #FCF6F5;
+}
+select:focus {
+	outline: none;
+}
+select::-ms-expand {
+	display: none;
+}
+
+.tournaments-navbar{
+	display: flex;
+  flex-direction: column;
+  align-items: center;
+	padding-bottom: 20px;
+}
+.tournaments-navbar table{
+	border-top: 2px solid white;
+	border-radius: 10px;
+}
+
+.tournaments-navbar th{
+	width: 15%;
+	text-align: center;
+	color: #05486B;
+	padding-top: 4%;
+	padding-bottom: 4%;
+}
+.tournaments-navbar th:hover{
+	color: #5CDB95;
+}
+.tournaments-navbar th:active{
+	color: #5CDB95;
+}
+.tournaments-navbar a {
+	color: #333;
+	text-decoration: none;
+	opacity: 0.6;
+	font-weight: bold;
+  font-size: 18px;
+  margin: 0px 10px;
+  display: inline-block;
+  position: relative;
+}
+.tournaments-navbar a:hover {
+	color: #05486B;
+  opacity: 1;
+}
+.tournaments-navbar a.active {
+  color: #05486B;
+	opacity: 1;
+}
+.tournaments-navbar a::before {
+  transition: 200ms;
+  height: 2px;
+  content: "";
+  position: absolute;
+  background-color: #05486B;
+}
+.tournaments-navbar a::before {
+  transition: 200ms;
+  height: 2px;
+  content: "";
+  position: absolute;
+  background-color: #05486B;
+}
+.tournaments-navbar a::before {
+  width: 0%;
+  bottom: -5px;
+}
+.tournaments-navbar a:hover::before {
+  width: 100%;
+}
+.standings-table{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.standings-table table {
+	border-spacing: 1;
+	border-collapse: collapse;
+	background: white;
+	border-radius: 6px;
+	overflow: hidden;
+	width: 56%;
+	position: relative;
+	margin-bottom: 3%;
+}
+.standings-table table * {
+	position: relative;
+}
+.standings-table table td, table th {
+	padding-left: 8px;
+	text-align: center;
+}
+.standings-table table thead tr {
+	height: 60px;
+	background: #5CDB95;
+	font-size: 16px;
+}
+.standings-table table tbody tr {
+	height: 45px;
+	border-bottom: 1px solid #5CDB95;
+}
+.standings-table table tbody tr:last-child {
+	border: 0;
+}
+.standings-table a {
+	color: #333;
+	text-decoration: none;
+}
+.standings-table th {
+	color: #FCF6F5;
+}
+.standings-table tbody tr:hover {
+  background-color: #ccc;
+}
+.games {
+	display: flex;
+  justify-content: center;
+  align-items: center;
+	margin-top: -1.4%;
+}
+.rounds {
+	width: 70%;
+	margin: 0;
+
+}
+.game-section {
+	width: 46%;
+	float: left;
+	margin: 2%;
+}
+.games table {
+	border-spacing: 1;
+	border-collapse: collapse;
+	background: white;
+	border-radius: 6px;
+	overflow: hidden;
+	width: 100%;
+	position: relative;
+}
+.games table * {
+	position: relative;
+}
+.games table th {
+	padding-left: 8px;
+	text-align: center;
+}
+.games table td {
+	text-align: right;
+}
+.games table thead tr {
+	height: 40px;
+	background: #5CDB95;
+	font-size: 16px;
+}
+.games table tbody tr {
+	height: 35px;
+	border-bottom: 1px solid #5CDB95;
+}
+.games table tbody tr:last-child {
+	border: 0;
+}
+.games a {
+	color: #333;
+	text-decoration: none;
+}
+.games th {
+	color: #FCF6F5;
+}
+.games tbody td:hover {
+  background-color: #ccc;
+}
+span.teams {
+	float: left;
+}
+.clickable-content{
+	padding: 2%;
 }

@@ -1,41 +1,48 @@
-= link_to "Turniej", tournament_path(@tournament.id)
-
-%table.table.table-hover.table-striped
-  %thead
-    %tr
-      %th{scope: "col"} #
-      %th{scope: "col"} Drużyna
-      %th{scope: "col"} Mecze
-      %th{scope: "col"} Wygrane
-      %th{scope: "col"} Remisy
-      %th{scope: "col"} Przegrane
-      %th{scope: "col"} Bramki
-      %th{scope: "col"} Punkty
-      %th{scope: "col"} Ulubione
-  %tbody
-    - @standings.each_with_index do |standing, i|
+.standings-table
+  %table
+    %thead
       %tr
-        %th{scope: "row"}
-          = i+1
-        %td= link_to standing.name, tournament_team_path(@tournament.id, standing.id)
-        %td= standing.games_played
-        %td= standing.wins
-        %td= standing.draws
-        %td= standing.defeats
-        %td
-          = standing.goals_for
-          \: #{standing.goals_against}
-        %td= standing.points
-        %td
-          = form_with(url: toggle_favorite_favorite_teams_users_path, method: :post, remote: true) do |form|
-            = form.hidden_field :team_id, value: standing.id
-            = form.button(type: "submit") do
-              %span.star-icon{"data-team-id" => standing.id}
-                - if current_user.favorite_teams.include?(standing)
-                  %i.fas.fa-star
-                  / Wypełniona gwiazdka
-                - else
-                  %i.far.fa-star
-                  / Pusta gwiazdka
+        %th{ style: 'width: 3%;' } #
+        %th{ style: 'text-align: left; width: 32%;' } Drużyna
+        %th{ style: 'width: 10%;' } Mecze
+        %th{ style: 'width: 10%;' } Wygrane
+        %th{ style: 'width: 10%;' } Remisy
+        %th{ style: 'width: 10%;' } Przegrane
+        %th{ style: 'width: 15%;' } Bramki
+        %th{ style: 'width: 10%;' } Punkty
+    %tbody
+      - @standings.each_with_index do |standing, i|
+        %tr
+          %td{ style: 'font-weight: bold; width: 3%;' }
+            = i+1
+          %td{ style: 'text-align: left;' }
+            = link_to standing.name, tournament_team_path(@tournament.id, standing.id)
+          %td{ style: 'width: 10%;' }
+            = standing.games_played
+          %td{ style: 'width: 10%;' }
+            = standing.wins
+          %td{ style: 'width: 10%;' }
+            = standing.draws
+          %td{ style: 'width: 10%;' }
+            = standing.defeats
+          %td{ style: 'width: 15%;' }
+            = standing.goals_for
+            \: #{standing.goals_against}
+          %td{ style: 'width: 10%;' }
+            = standing.points
 
-%script{crossorigin: "anonymous", src: "https://kit.fontawesome.com/142bbe0175.js"}
+
+
+        -# %td
+        -#   = form_with(url: toggle_favorite_favorite_teams_users_path, method: :post, remote: true) do |form|
+        -#     = form.hidden_field :team_id, value: standing.id
+        -#     = form.button(type: "submit") do
+        -#       %span.star-icon{"data-team-id" => standing.id}
+        -#         - if current_user.favorite_teams.include?(standing)
+        -#           %i.fas.fa-star
+        -#           / Wypełniona gwiazdka
+        -#         - else
+        -#           %i.far.fa-star
+        -#           / Pusta gwiazdka
+
+-# %script{crossorigin: "anonymous", src: "https://kit.fontawesome.com/142bbe0175.js"}

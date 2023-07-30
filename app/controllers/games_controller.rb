@@ -4,6 +4,8 @@ class GamesController < ApplicationController
   # GET /games or /games.json
   def index
     @games = Game.all
+    @tournament = Tournament.find(params[:tournament_id])
+    @rounds = Round.includes(:games).where(tournament_id: @tournament)
   end
 
   # GET /games/1 or /games/1.json
@@ -73,5 +75,9 @@ class GamesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def game_params
       params.require(:game).permit(:home_team_id, :away_team_id, :home_score, :away_score, :location, :date, :status, :round_id)
+    end
+
+    def tournament
+      @tournament = Tournament.find(params[:tournament_id])
     end
 end

@@ -1,0 +1,23 @@
+.games
+  .rounds
+    - @rounds.each do |round|
+      .game-section
+        %table
+          %thead
+            %tr
+              %th
+                = round.name
+          %tbody
+            - round.games.each do |game|
+              %tr
+                %td
+                  = link_to tournament_game_path(@tournament, game), class: "full-cell-link" do
+                    .clickable-content
+                      %span.teams
+                        = game.home_team.name
+                        vs
+                        = game.away_team.name
+                      %span
+                        - if game.date == nil
+                          Brak daty
+                        = game.date
