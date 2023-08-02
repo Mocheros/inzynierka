@@ -1,0 +1,74 @@
+-# .single-stat-continer
+-#   %h2{style: "text-align: center; margin-bottom: 1%;"}= "Wydarzenia zespołu #{@current_team.name}"
+-#   .new-stat-box
+-#     %h4 Edytuj wydarzenie
+-#     = form_with model: [@tournament, @game, @team, @single_stat], local: true do |form|
+-#       %div
+-#         Minuta
+-#         = form.number_field 'minute'
+-#       %div
+-#         = form.select :stat_type, options_for_select(SingleStat.stat_types.map {|key, value| [value, key]}), include_blank: "Rodzaj wydarzenia"
+-#       %div.goal
+-#         = form.select 'first_player', options_for_select(@players), include_blank: "Strzelec"
+-#         = form.select 'second_player', options_for_select(@players), include_blank: "Asystent"
+-#       %div.own_goal
+-#         = form.select 'first_player', options_for_select(@players), include_blank: "Strzelec"
+-#       %div.yellow_card
+-#         = form.select 'first_player', options_for_select(@players), include_blank: "Zawodnik"
+-#       %div.red_card
+-#         = form.select 'first_player', options_for_select(@players), include_blank: "Zawodnik"
+-#       %div.subs
+-#         = form.select 'first_player', options_for_select(@players), include_blank: "Wchodzący"
+-#         = form.select 'second_player', options_for_select(@players), include_blank: "Schodzący"
+-#       = form.submit "Dodaj", class: "button"
+
+-# :javascript
+-#     $(document).ready(function() {
+-#     $('.goal').hide();
+-#     $('.own_goal').hide();
+-#     $('.yellow_card').hide();
+-#     $('.red_card').hide();
+-#     $('.subs').hide();
+
+-#     function toggleDivs() {
+-#       var selectedOption = $('#stat_type').val();
+-#       if (selectedOption === 'goal') {
+-#         $('.goal').show();
+-#         $('.own_goal').hide();
+-#         $('.yellow_card').hide();
+-#         $('.red_card').hide();
+-#         $('.subs').hide();
+-#       } 
+-#       else if(selectedOption === 'own_goal') {
+-#         $('.goal').hide();
+-#         $('.own_goal').show();
+-#         $('.yellow_card').hide();
+-#         $('.red_card').hide();
+-#         $('.subs').hide();
+-#       }
+-#       else if(selectedOption === 'yellow_card') {
+-#         $('.own_goal').hide();
+-#         $('.goal').hide();
+-#         $('.yellow_card').show();
+-#         $('.red_card').hide();
+-#         $('.subs').hide();
+-#       }
+-#       else if(selectedOption === 'red_card') {
+-#         $('.own_goal').hide();
+-#         $('.goal').hide();
+-#         $('.yellow_card').hide();
+-#         $('.red_card').show();
+-#         $('.subs').hide();
+-#       }
+-#       else if(selectedOption === 'subs') {
+-#         $('.own_goal').hide();
+-#         $('.goal').hide();
+-#         $('.yellow_card').hide();
+-#         $('.red_card').hide();
+-#         $('.subs').show();
+-#       }
+-#     }
+
+-#     toggleDivs();
+-#     $('#stat_type').on('change', toggleDivs);
+-#   });

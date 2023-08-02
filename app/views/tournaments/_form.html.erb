@@ -10,7 +10,7 @@
       </ul>
     </div>
   <% end %>
-      <%= form.text_field :name, placeholder: "Nazwa", style: "margin-top: 30px;" %>
+      <%= form.text_field :name, placeholder: "Nazwa", autocomplete: "off", style: "margin-top: 30px;" %>
 <%= form.select :format, options_for_select(["System ligowy", "System ligowy z rewanżami"], selected: nil), include_blank: "Rodzaj turnieju" %>
       <%= form.select :number_of_teams, options_for_select([["Ilość drużyn", nil]] + (1..64).to_a.map { |num| [num, num] }, selected: nil, disabled: nil) %>
 
@@ -34,6 +34,5 @@
     <div>
       <%= form.button "Utwórz turniej" %>
     </div>
-
 
 <% end %>

@@ -20,4 +20,5 @@
                       %span
                         - if game.date == nil
                           Brak daty
-                        = game.date
+                        - else
+                          = game.date.strftime('%d.%m.%Y %H:%M')

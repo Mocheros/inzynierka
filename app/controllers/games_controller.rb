@@ -12,6 +12,19 @@ class GamesController < ApplicationController
   def show
     @game = Game.find(params[:id])
     @tournament = Tournament.find(params[:tournament_id])
+
+    @home_lineups = Lineup.where(game_id: @game.id, team_id: @game.home_team_id, lineup_type: "starting")
+    @home_goalkeeper = Lineup.find_by(game_id: @game.id, team_id: @game.home_team_id, lineup_type: "goalkeeper")
+    @home_subs = Lineup.where(game_id: @game.id, team_id: @game.home_team_id, lineup_type: "substitute")
+    
+    @away_lineups = Lineup.where(game_id: @game.id, team_id: @game.away_team_id, lineup_type: "starting")
+    @away_goalkeeper = Lineup.find_by(game_id: @game.id, team_id: @game.away_team_id, lineup_type: "goalkeeper")
+    @away_subs = Lineup.where(game_id: @game.id, team_id: @game.away_team_id, lineup_type: "substitute")
+
+    @game_events = SingleStat.where(game_id: @game.id).order(:minute)
+
+    @home_goals = SingleStat.where(game_id: @game.id, team_id: @game.home_team_id, stat_type: "goal").count + SingleStat.where(game_id: @game.id, team_id: @game.away_team_id, stat_type: "own_goal").count
+    @away_goals = SingleStat.where(game_id: @game.id, team_id: @game.away_team_id, stat_type: "goal").count + SingleStat.where(game_id: @game.id, team_id: @game.home_team_id, stat_type: "own_goal").count
   end
 
   # GET /games/new
@@ -45,14 +58,11 @@ class GamesController < ApplicationController
     @game = Game.find(params[:id])
     @tournament = Tournament.find(params[:tournament_id])
     
-    respond_to do |format|
-      if @game.update(game_params)
-        format.html { redirect_to tournament_game_path(@tournament, @game), notice: "Game was successfully updated." }
-        format.json { render :show, status: :ok, location: @game }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @game.errors, status: :unprocessable_entity }
-      end
+    if @game.update(game_params)
+      redirect_to tournament_game_path(@tournament, @game), notice: "Game was successfully updated."
+    # else
+    #   format.html { render :edit, status: :unprocessable_entity }
+    #   format.json { render json: @game.errors, status: :unprocessable_entity }
     end
   end
 

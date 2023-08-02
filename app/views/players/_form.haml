@@ -9,8 +9,8 @@
     %tbody
       - 20.times do |i|
         %tr.field
-          %td= text_field_tag "players[#{i}][name]", nil, id: "player_#{i}_name"
-          %td= number_field_tag "players[#{i}][shirt_number]", nil, id: "player_#{i}_shirt_number"
+          %td= text_field_tag "players[#{i}][name]", nil, id: "player_#{i}_name", autocomplete: "off"
+          %td= number_field_tag "players[#{i}][shirt_number]", nil, id: "player_#{i}_shirt_number", autocomplete: "off"
           %td
             - ["Bramkarz", "Obrońca", "Pomocnik", "Napastnik"].each do |pozycja|
               = radio_button_tag "players[#{i}][position]", pozycja

@@ -1,39 +1,95 @@
-= form_tag tournament_game_team_single_stats_path(@tournament, @game, @current_team, @stat), data: {turbo: false} do
-  %div
-    - SingleStat.stat_types.each do |stat_type|
-      = radio_button_tag 'stat_type', stat_type[0], @stat_type == stat_type, class: "#{stat_type[0]}"
-      = stat_type[1]
-  %div
-    Minuta
-    = number_field_tag 'minute'
-  %div.first_player
-    %span#player_1_text
-    = select_tag 'first_player', options_for_select(@players), prompt: ""
-  %div.second_player
-    %span#player_2_text
-    = select_tag 'second_player', options_for_select(@players), prompt: ""
-  = submit_tag "Dodaj wydarzenie"
-
+.single-stat-continer
+  .go-back-arrow
+    = link_to "<- Wróć do meczu", tournament_game_path(@tournament, @game)
+  %h2{style: "text-align: center; margin-bottom: 1%;"}= "Wydarzenia zespołu #{@current_team.name}"
+  .new-stat-box
+    %h4 Nowe wydarzenie
+    = form_tag tournament_game_team_single_stats_path(@tournament, @game, @current_team, @stat), data: {turbo: false} do
+      %div
+        Minuta
+        = number_field_tag 'minute'
+      %div
+        = select_tag :stat_type, options_for_select(SingleStat.stat_types.map {|key, value| [value, key]}), include_blank: "Rodzaj wydarzenia"
+      %div.goal
+        = select_tag 'goal_first_player', options_for_select(@players), include_blank: "Strzelec"
+        = select_tag 'goal_second_player', options_for_select(@players), include_blank: "Asystent"
+      %div.own_goal
+        = select_tag 'own_goal_player', options_for_select(@players), include_blank: "Strzelec"
+      %div.yellow_card
+        = select_tag 'yellow_card_player', options_for_select(@players), include_blank: "Zawodnik"
+      %div.red_card
+        = select_tag 'red_card_player', options_for_select(@players), include_blank: "Zawodnik"
+      %div.subs
+        = select_tag 'sub_on_player', options_for_select(@players), include_blank: "Wchodzący"
+        = select_tag 'sub_off_player', options_for_select(@players), include_blank: "Schodzący"
+      = submit_tag "Dodaj", class: "button"
+  .current-stats-box
+    %h4 Aktualne wydarzenia
+    .standings-table
+      %table
+        %thead
+          %tr
+            %th{style: "width: 5%;"} Minuta
+            %th Rodzaj
+            %th Główny zawodnik
+            %th Drugi zawodnik
+            %th Akcja
+        %tbody
+          - @team_events.order(:minute).each do |event|
+            %tr
+              %td= event.minute
+              %td= event.stat_type_name 
+              %td= event.first_player.name
+              %td= event.try(:second_player).try(:name)
+              %td
+                = link_to "Usuń", tournament_game_team_single_stat_path(@tournament, @game, event.team_id, event.id), method: :delete, data: { "turbo-method": :delete, turbo_confirm: 'Are you sure?' }, class: "button"
 :javascript
-  $(document).ready(function() {
-    $(".second_player").hide(); // Ukryj div o klasie "assistant" na początku
-    $(".first_player").hide(); // Ukryj div o klasie "assistant" na początku
+    $(document).ready(function() {
+    $('.goal').hide();
+    $('.own_goal').hide();
+    $('.yellow_card').hide();
+    $('.red_card').hide();
+    $('.subs').hide();
 
-    $('input[type=radio][name=stat_type]').change(function() {
-      console.log(this.value);
-      if (this.value == "goal") {
-        $(".first_player").show(); // Pokaż div o klasie "assistant", jeśli value jest ustawione na "goal"
-        $(".second_player").show(); // Pokaż div o klasie "assistant", jeśli value jest ustawione na "goal"
-        $("#player_1_text").text("Strzelec");
-        $("#player_2_text").text("Asystent");
-      } else if (this.value == "subs") {
-        $(".first_player").show(); // Pokaż div o klasie "assistant", jeśli value jest ustawione na "goal"
-        $(".second_player").show(); // Pokaż div o klasie "assistant", jeśli value jest ustawione na "goal"
-        $("#player_1_text").text("Zawodnik schodzący");
-        $("#player_2_text").text("Zawodnik wchodzący");
-      } else {
-        $(".second_player").hide(); // Ukryj div o klasie "assistant" w przeciwnym przypadku
-        $("#player_1_text").text("Zawodnik");
+    function toggleDivs() {
+      var selectedOption = $('#stat_type').val();
+      if (selectedOption === 'goal') {
+        $('.goal').show();
+        $('.own_goal').hide();
+        $('.yellow_card').hide();
+        $('.red_card').hide();
+        $('.subs').hide();
+      } 
+      else if(selectedOption === 'own_goal') {
+        $('.goal').hide();
+        $('.own_goal').show();
+        $('.yellow_card').hide();
+        $('.red_card').hide();
+        $('.subs').hide();
       }
-    });
+      else if(selectedOption === 'yellow_card') {
+        $('.own_goal').hide();
+        $('.goal').hide();
+        $('.yellow_card').show();
+        $('.red_card').hide();
+        $('.subs').hide();
+      }
+      else if(selectedOption === 'red_card') {
+        $('.own_goal').hide();
+        $('.goal').hide();
+        $('.yellow_card').hide();
+        $('.red_card').show();
+        $('.subs').hide();
+      }
+      else if(selectedOption === 'subs') {
+        $('.own_goal').hide();
+        $('.goal').hide();
+        $('.yellow_card').hide();
+        $('.red_card').hide();
+        $('.subs').show();
+      }
+    }
+
+    toggleDivs();
+    $('#stat_type').on('change', toggleDivs);
   });
