@@ -36,6 +36,8 @@ class GamesController < ApplicationController
   def edit
     @game = Game.find(params[:id])
     @tournament = Tournament.find(params[:tournament_id])
+    @tournaments_teams = Team.where(tournament_id: @tournament.id).order(:name)
+    @tournaments_rounds = Round.where(tournament_id: @tournament.id).order(:name)
   end
 
   # POST /games or /games.json
@@ -59,6 +61,39 @@ class GamesController < ApplicationController
     @tournament = Tournament.find(params[:tournament_id])
     
     if @game.update(game_params)
+      if game_params[:status] == "finished"
+        home_goals = SingleStat.where(game_id: @game.id, team_id: @game.home_team_id, stat_type: "goal").count + SingleStat.where(game_id: @game.id, team_id: @game.away_team_id, stat_type: "own_goal").count
+        away_goals = SingleStat.where(game_id: @game.id, team_id: @game.away_team_id, stat_type: "goal").count + SingleStat.where(game_id: @game.id, team_id: @game.home_team_id, stat_type: "own_goal").count
+        @game.update(home_score: home_goals, away_score: away_goals)
+
+        home_team = Team.find_by(id: @game.home_team_id)
+        away_team = Team.find_by(id: @game.away_team_id)
+
+        home_team.increment!(:games_played, 1)
+        away_team.increment!(:games_played, 1)
+        
+        home_team.increment!(:goals_for, home_goals)
+        home_team.increment!(:goals_against, away_goals)
+        away_team.increment!(:goals_for, away_goals)
+        away_team.increment!(:goals_against, home_goals)
+
+        if home_goals > away_goals
+          home_team.increment!(:wins, 1)
+          home_team.update(points: home_team.points + 3)
+          away_team.increment!(:defeats, 1)
+        elsif home_goals < away_goals
+          away_team.increment!(:wins, 1)
+          away_team.update(points: away_team.points + 3)
+          home_team.increment!(:defeats, 1)
+        else
+          home_team.increment!(:draws, 1)
+          home_team.increment!(:points, 1)
+          away_team.increment!(:draws, 1)
+          away_goals.increment!(:points, 1)
+        end
+        
+        
+      end
       redirect_to tournament_game_path(@tournament, @game), notice: "Game was successfully updated."
     # else
     #   format.html { render :edit, status: :unprocessable_entity }

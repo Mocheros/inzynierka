@@ -66,7 +66,12 @@
       if (seats.length == 10 && if_checked == true) {
         $("#MOTFORMERROR").html("");
         document.getElementById("add_starting_players").disabled = false;
-      } else {
+      } else if (seats.length > 10 && if_checked == true){
+        document.getElementById("add_starting_players").disabled = true;
+        $("#MOTFORMERROR").css('color', 'red');
+        $("#MOTFORMERROR").html("Wybrałeś za dużo zawodników!");
+      }
+      else {
         document.getElementById("add_starting_players").disabled = true;
         players_left = +10 - +seats.length;
         $("#MOTFORMERROR").css('color', 'red');

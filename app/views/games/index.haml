@@ -15,7 +15,15 @@
                     .clickable-content
                       %span.teams
                         = game.home_team.name
-                        vs
+                        - if game.status == "upcoming"
+                          vs
+                        - elsif game.status == "live"
+                          %span{style: "color: red; font-weight: 600;"}
+                            \ - vs -
+                        - elsif game.status == "finished"
+                          %span{style: "font-weight: 650;"}
+                            = game.home_score
+                            \- #{game.home_score}
                         = game.away_team.name
                       %span
                         - if game.date == nil

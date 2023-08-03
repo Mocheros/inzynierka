@@ -1,13 +1,8 @@
 .game
   .game-details
     .admin-button
-      - unless Lineup.where(game_id: @game.id, team_id: @game.home_team_id).present?
-        = link_to "Składy gospodarzy", new_tournament_game_team_lineup_path(@tournament, @game, @game.home_team_id, "starting")
-      = link_to "Dodaj wydarzenie gospodarzy", new_tournament_game_team_single_stat_path(@tournament, @game, @game.home_team_id)
-      = link_to "Edytuj mecz", edit_tournament_game_path(@tournament, @game)
-      = link_to "Dodaj wydarzenie gości", new_tournament_game_team_single_stat_path(@tournament, @game, @game.away_team_id)
-      - unless Lineup.where(game_id: @game.id, team_id: @game.away_team_id).present?
-        = link_to "Składy gości", new_tournament_game_team_lineup_path(@tournament, @game, @game.away_team_id, "starting")
+      - unless @game.status == "finished"
+        = link_to "Edytuj mecz", edit_tournament_game_path(@tournament, @game)
     .teams-details
       .home-team
         %h1= @game.home_team.name
@@ -20,6 +15,19 @@
             \- #{@away_goals}
       .away-team
         %h1= @game.away_team.name
+    .events-details
+      .home
+        - unless Lineup.where(game_id: @game.id, team_id: @game.home_team_id).present?
+          = link_to "Składy", new_tournament_game_team_lineup_path(@tournament, @game, @game.home_team_id, "starting")
+        %br/ 
+        - unless @game.status == "finished"
+          = link_to "Dodaj wydarzenie", new_tournament_game_team_single_stat_path(@tournament, @game, @game.home_team_id)
+      .away
+        - unless Lineup.where(game_id: @game.id, team_id: @game.away_team_id).present?
+          = link_to "Składy", new_tournament_game_team_lineup_path(@tournament, @game, @game.away_team_id, "starting")
+        %br/ 
+        - unless @game.status == "finished"
+          = link_to "Dodaj wydarzenie", new_tournament_game_team_single_stat_path(@tournament, @game, @game.away_team_id)
     .date-details
       - if @game.date
         %h6= @game.date.strftime('%d.%m.%Y %H:%M')
@@ -61,27 +69,24 @@
               %td
                 - if event.team_id == @game.home_team_id
                   .home-team-event
-                    - if event.stat_type == "goal"
+                    - if event.minute
                       = "#{event.minute}'"
+                    - if event.stat_type == "goal"
                       %i.fa-regular.fa-futbol{ style: 'color: #2BAE66;' }
                       = event.first_player.name
                       - if event.second_player
                         %span{ style: 'opacity: 0.7;' }
                           = "(#{event.second_player.name})"
                     - elsif event.stat_type == "own_goal"
-                      = "#{event.minute}'"
                       %i.fa-regular.fa-futbol{ style: 'color: red;' }
                       = event.first_player.name
                     - elsif event.stat_type == "yellow_card"
-                      = "#{event.minute}'"
                       %i.fa-solid.fa-square{style: "color: #ffea00;"}
                       = event.first_player.name
                     - elsif event.stat_type == "red_card"
-                      = "#{event.minute}'"
                       %i.fa-solid.fa-square{style: "color: #ff0000;"}
                       = event.first_player.name
                     - elsif event.stat_type == "subs"
-                      = "#{event.minute}'"
                       %i.fa-solid.fa-arrows-rotate{style: "color: #2977f5;"}
                       = event.first_player.name
                       %span{ style: 'opacity: 0.7;' }
@@ -94,24 +99,21 @@
                           = "(#{event.second_player.name})"
                       = event.first_player.name
                       %i.fa-regular.fa-futbol{ style: 'color: #2BAE66;' }
-                      = "#{event.minute}'"
                     - elsif event.stat_type == "own_goal"
                       = event.first_player.name
                       %i.fa-regular.fa-futbol{ style: 'color: red;' }
-                      = "#{event.minute}'"
                     - elsif event.stat_type == "yellow_card"
                       = event.first_player.name
                       %i.fa-solid.fa-square{style: "color: #ffea00;"}
-                      = "#{event.minute}'"
                     - elsif event.stat_type == "red_card"
                       = event.first_player.name
                       %i.fa-solid.fa-square{style: "color: #ff0000;"}
-                      = "#{event.minute}'"
                     - elsif event.stat_type == "subs"
                       %span{ style: 'opacity: 0.7;' }
                         = "(#{event.second_player.name})"
                       = event.first_player.name
                       %i.fa-solid.fa-arrows-rotate{style: "color: #2977f5;"}
+                    - if event.minute
                       = "#{event.minute}'"
     .away-lineups
       %table
