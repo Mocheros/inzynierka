@@ -1,5 +1,4 @@
 class TeamsController < ApplicationController
-  before_action :set_team, only: %i[ show edit update destroy ]
 
   # GET /teams or /teams.json
   def index
@@ -13,9 +12,10 @@ class TeamsController < ApplicationController
 
   # GET /teams/1 or /teams/1.json
   def show
+    @team = Team.find(params[:id])
     @tournament = Tournament.find(params['tournament_id'])
     position_order = {'Bramkarz' => 0,'Obrońca' => 1,'Pomocnik' => 2,'Napastnik' => 3}
-    @players = Player.where(team_id: set_team.id).order('name asc').sort_by { |p| position_order[p.position] }
+    @players = Player.where(team_id: team.id).order('name asc').sort_by { |p| position_order[p.position] }
   end
 
   # GET /teams/new
@@ -25,6 +25,8 @@ class TeamsController < ApplicationController
 
   # GET /teams/1/edit
   def edit
+    @team = Team.find(params[:id])
+    @tournament = Tournament.find(params['tournament_id'])
   end
 
   # POST /teams or /teams.json
@@ -44,14 +46,12 @@ class TeamsController < ApplicationController
 
   # PATCH/PUT /teams/1 or /teams/1.json
   def update
-    respond_to do |format|
-      if @team.update(team_params)
-        format.html { redirect_to team_url(@team), notice: "Team was successfully updated." }
-        format.json { render :show, status: :ok, location: @team }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @team.errors, status: :unprocessable_entity }
-      end
+    @team = Team.find(params[:id])
+    @tournament = Tournament.find(params['tournament_id'])
+    if @team.update(team_params_name)
+      redirect_to tournament_team_path(@tournament, @team), notice: "Team was successfully updated."
+    else
+      render :edit, status: :unprocessable_entity 
     end
   end
 
@@ -67,12 +67,16 @@ class TeamsController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_team
+    def team
       @team = Team.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def team_params
       params.require(:team).permit(:name, :games_played, :wins, :draws, :defeats, :goals_for, :goals_against, :points)
+    end
+
+    def team_params_name
+      params.require(:team).permit(:name)
     end
 end

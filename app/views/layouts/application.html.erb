@@ -25,7 +25,7 @@
 
   <body>
     <%= render 'layouts/navbar' %>
-    <% if request.fullpath.include?("tournaments") && !request.fullpath.include?("tournaments/new") %>
+    <% if request.fullpath.include?("tournaments/") && !request.fullpath.include?("tournaments/new") %>
       <%= render 'layouts/tournament_navbar' %>
     <% end %>
     <%= yield %>

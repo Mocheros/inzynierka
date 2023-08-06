@@ -1,24 +1,48 @@
-= link_to "Turniej", tournament_path(@tournament.id)
-
-%table.table.table-hover.table-striped
-  %thead
-    %tr
-      %th{scope: "col"} #
-      %th{scope: "col"} Zawodnik
-      %th{scope: "col"} Pozycja
-      %th{scope: "col"} Mecze
-      %th{scope: "col"} Bramki
-      %th{scope: "col"} Asysty
-      %th{scope: "col"} Żółte kartki
-      %th{scope: "col"} Czerwone kartki
-  %tbody
-    - @players.each do |player|
-      %tr
-        %td= player.shirt_number
-        %td= player.name
-        %td= player.position
-        %td= player.games_played
-        %td= player.goals
-        %td= player.assists
-        %td= player.yellow_cards
-        %td= player.red_cards
+.team-page
+  .admin-button
+    = link_to "Edytuj drużynę", edit_tournament_team_path(@tournament, @team)
+  %h1= @team.name
+  %h4 Statystyki drużyny
+  .standings-table
+    %table{style: "width: 40%;"}
+      %thead
+        %th{ style: 'width: 10%;' } Mecze
+        %th{ style: 'width: 10%;' } Wygrane
+        %th{ style: 'width: 10%;' } Remisy
+        %th{ style: 'width: 10%;' } Przegrane
+        %th{ style: 'width: 15%;' } Bramki strzelone
+        %th{ style: 'width: 15%;' } Bramki stracone
+        %th{ style: 'width: 10%;' } Punkty
+      %tbody
+        %tr
+          %td= @team.games_played
+          %td= @team.wins
+          %td= @team.draws
+          %td= @team.defeats
+          %td= @team.goals_for
+          %td= @team.goals_against
+          %td= @team.points
+  %h4 Zawodnicy
+  .standings-table
+    %table
+      %thead
+        %tr
+          %th #
+          %th Zawodnik
+          %th Pozycja
+          %th Mecze
+          %th Bramki
+          %th Asysty
+          %th Żółte kartki
+          %th Czerwone kartki
+      %tbody
+        - @players.each do |player|
+          %tr
+            %td= player.shirt_number
+            %td= player.name
+            %td= player.position
+            %td= player.games_played
+            %td= player.goals
+            %td= player.assists
+            %td= player.yellow_cards
+            %td= player.red_cards

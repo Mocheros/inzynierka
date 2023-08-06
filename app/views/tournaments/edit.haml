@@ -1,0 +1,36 @@
+.edit-tournament
+  .single-stat-continer
+    .new-stat-box
+      %h4 Edytuj turniej
+      = form_with(model: @tournament) do |form|
+        = form.text_field :name, placeholder: "Nazwa", autocomplete: "off", style: "margin-top: 30px;"
+        %label.toggle{for: "uniqueID"}
+          = form.check_box :private, class: 'toggle__input', id: 'uniqueID', style: "width: 0;"
+          %span.toggle-track
+            %span.toggle-indicator
+              %span.checkMark
+                %svg#ghq-svg-check{"aria-hidden" => "true", role: "presentation", viewbox: "0 0 24 24"}
+                  %path{d: "M9.86 18a1 1 0 01-.73-.32l-4.86-5.17a1.001 1.001 0 011.46-1.37l4.12 4.39 8.41-9.2a1 1 0 111.48 1.34l-9.14 10a1 1 0 01-.73.33h-.01z"}
+          %h6 Turniej prywatny
+        = form.hidden_field :creator_id, value: current_user.id
+        %div
+          = form.button "Edytuj", class: "button"
+    .new-editor
+      %h4 Dodaj moderatora
+      = form_with(model: @tournament_editor, url: create_editor_tournament_path(@tournament), method: :post, data: {turbo: false}) do |form|
+        = form.text_field :email, placeholder: "email"
+        = form.submit "Dodaj", class: "button"
+    .current-stats-box
+      %h4 Moderatorzy turnieju
+      .standings-table
+        %table
+          %thead
+            %tr
+              %th Email
+              %th Akcja
+          %tbody
+            - @editors.each do |editor|
+              %tr
+                %td= editor.try(:email)
+                %td
+                  = link_to "Usuń", remove_editor_tournament_path(@tournament, editor_id: editor.id), method: :delete, data: { "turbo-method": :delete, turbo_confirm: 'Czy na pewno chcesz usunąć tego moderatora?' }, class: "button"

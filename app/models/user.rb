@@ -1,8 +1,9 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  has_many :favorite_teams_users, class_name: 'FavoriteTeamsUser', foreign_key: :user_id
-  has_many :favorite_teams, through: :favorite_teams_users, source: :team
+  has_many :tournament_editors, dependent: :destroy
+  has_many :editable_tournaments, through: :tournament_editors, source: :tournament
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2]

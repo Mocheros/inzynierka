@@ -1,0 +1,24 @@
+.edit-game-continer
+  .go-back-arrow
+    = link_to "<- Wróć", tournament_team_path(@tournament, @team)
+  %h2{style: "text-align: center; margin-bottom: 1%;"}= "Edytuj mecz"
+  .edit-game
+    = form_for [@tournament, @team], data: {turbo: false} do |form|
+      %div
+        %h6 Nazwa
+        = form.text_field :name
+      %div
+        = form.button "Edytuj", class: "button"
+
+
+
+
+
+  -# - if game.errors.any?
+  -#   %div{style: "color: red"}
+  -#     %h2
+  -#       = pluralize(game.errors.count, "error")
+  -#       prohibited this game from being saved:
+  -#     %ul
+  -#       - game.errors.each do |error|
+  -#         %li= error.full_message

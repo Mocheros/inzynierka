@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_02_212428) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_05_131958) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
@@ -96,7 +96,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_212428) do
     t.string "tournament_id"
   end
 
-  create_table "tournaments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "tournament_editors", force: :cascade do |t|
+    t.string "tournament_id"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_tournament_editors_on_user_id"
+  end
+
+  create_table "tournaments", id: { type: :string, limit: 6, default: -> { "gen_random_uuid()" } }, force: :cascade do |t|
     t.string "name"
     t.string "format"
     t.integer "number_of_teams"
@@ -128,4 +136,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_02_212428) do
   add_foreign_key "lineups", "players"
   add_foreign_key "lineups", "teams"
   add_foreign_key "players", "teams"
+  add_foreign_key "tournament_editors", "tournaments"
+  add_foreign_key "tournament_editors", "users"
 end

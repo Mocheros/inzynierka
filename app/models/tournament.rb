@@ -1,7 +1,13 @@
 class Tournament < ApplicationRecord
+  before_create :generate_random_id
+
   has_many :teams
   has_many :rounds
   has_many :games
+
+  has_many :tournament_editors, dependent: :destroy
+  has_many :editors, through: :tournament_editors, source: :user
+
 
   validates :format, presence: true
   validates :number_of_teams, presence: true
@@ -115,6 +121,10 @@ class Tournament < ApplicationRecord
     # end
   end
 
+  private
 
+  def generate_random_id
+    self.id = SecureRandom.alphanumeric(6)
+  end
 
 end

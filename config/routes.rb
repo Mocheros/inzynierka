@@ -1,11 +1,18 @@
 Rails.application.routes.draw do
   resources :tournaments do
+    member do
+      get 'add_editor'
+      post 'create_editor'
+    end
+    delete 'remove_editor/:editor_id', to: 'tournaments#remove_editor', as: :remove_editor, on: :member, via: :delete
     collection do 
       get 'favorites'
-      get 'last_tournaments'
     end
     resources :games do
       resources :teams do
+        member do
+          patch 'update_name'  # Dodaj trasę dla akcji update_name
+        end
         resources :lineups
         resources :single_stats
       end
@@ -17,9 +24,9 @@ Rails.application.routes.draw do
     resources :standings
     resources :top_scorers
   end
-  resources :favorite_teams_users, only: [] do
-    post 'toggle_favorite', on: :collection
-  end
+
+  get '/last_tournaments', to: 'home#last_tournaments'
+  get '/my_tournaments', to: 'home#my_tournaments'
   
   
   root 'home#index'

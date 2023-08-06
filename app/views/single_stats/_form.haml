@@ -42,7 +42,7 @@
               %td= event.first_player.name
               %td= event.try(:second_player).try(:name)
               %td
-                = link_to "Usuń", tournament_game_team_single_stat_path(@tournament, @game, event.team_id, event.id), method: :delete, data: { "turbo-method": :delete, turbo_confirm: 'Are you sure?' }, class: "button"
+                = link_to "Usuń", tournament_game_team_single_stat_path(@tournament, @game, event.team_id, event.id), method: :delete, data: { "turbo-method": :delete, turbo_confirm: 'Czy na pewno chcesz usunąć te wydarzenie?' }, class: "button"
 :javascript
     $(document).ready(function() {
     $('.goal').hide();
