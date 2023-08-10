@@ -9,9 +9,29 @@ class Tournament < ApplicationRecord
   has_many :editors, through: :tournament_editors, source: :user
 
 
+  validates :name, presence: true
   validates :format, presence: true
   validates :number_of_teams, presence: true
 
+
+  def self.playoff_generator(teams_array, t_id)
+
+    teams = teams_array.map(&:id).shuffle
+
+    num_teams = teams.length
+    num_rounds = Math.log2(num_teams).to_i
+
+    num_rounds.times do |round_num|
+      round = Round.create(name: "Round #{num_rounds - round_num}", tournament_id: t_id)
+
+      num_games = 2**(num_rounds - round_num - 1)
+      num_games.times do |game_num|
+        team1 = teams[game_num * 2]
+        team2 = teams[game_num * 2 + 1]
+        game = Game.create(home_team_id: team1, away_team_id: team2, round_id: round.id, tournament_id: t_id)
+      end
+    end
+  end
 
   def self.league_single_game_generator(teams_array, t_id)
 

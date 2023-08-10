@@ -28,9 +28,11 @@ class PlayersController < ApplicationController
     end
     
     if @players.compact.all?(&:persisted?)
-      redirect_to tournament_team_path(tournament, team), notice: 'Players successfully created.'
+      flash[:notice] = 'Zawodnicy zostali dodani'
+      redirect_to tournament_team_path(tournament, team)
     else
-      render :new, locals: { tournament: tournament, team: team }
+      flash[:danger] = 'Każdy z zawodników musi mieć przypisaną pozycje! Numery powinny być z zakresu 0-99'
+      redirect_to new_tournament_team_player_path(tournament, team)
     end
   end
 

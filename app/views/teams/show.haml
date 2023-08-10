@@ -1,6 +1,7 @@
 .team-page
   .admin-button
     = link_to "Edytuj drużynę", edit_tournament_team_path(@tournament, @team)
+    = link_to "Dodaj zawodników", new_tournament_team_player_path(@tournament, @team)
   %h1= @team.name
   %h4 Statystyki drużyny
   .standings-table

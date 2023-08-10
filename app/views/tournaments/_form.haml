@@ -1,14 +1,6 @@
-= form_with(model: tournament) do |form|
-  - if tournament.errors.any?
-    %div{style: "color: red"}
-      %h2
-        = pluralize(tournament.errors.count, "error")
-        prohibited this tournament from being saved:
-      %ul
-        - tournament.errors.each do |error|
-          %li= error.full_message
+= form_with(model: tournament, data: {turbo: false}) do |form|
   = form.text_field :name, placeholder: "Nazwa", autocomplete: "off", style: "margin-top: 30px;"
-  = form.select :format, options_for_select(["System ligowy", "System ligowy z rewanżami"], selected: nil), include_blank: "Rodzaj turnieju"
+  = form.select :format, options_for_select(["System ligowy", "System ligowy z rewanżami", "System pucharowy"], selected: nil), include_blank: "Rodzaj turnieju"
   = form.select :number_of_teams, options_for_select([["Ilość drużyn", nil]] + (1..64).to_a.map { |num| [num, num] }, selected: nil, disabled: nil)
   %label.toggle{for: "uniqueID"}
     = form.check_box :private, class: 'toggle__input', id: 'uniqueID'

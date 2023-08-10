@@ -49,9 +49,11 @@ class TeamsController < ApplicationController
     @team = Team.find(params[:id])
     @tournament = Tournament.find(params['tournament_id'])
     if @team.update(team_params_name)
-      redirect_to tournament_team_path(@tournament, @team), notice: "Team was successfully updated."
+      flash[:notice] = 'Drużyna została zaktualizowana'
+      redirect_to tournament_team_path(@tournament, @team)
     else
-      render :edit, status: :unprocessable_entity 
+      flash[:danger] = 'Nazwa nie może być pusta'
+      redirect_to edit_tournament_team_path(@tournament, @team)
     end
   end
 

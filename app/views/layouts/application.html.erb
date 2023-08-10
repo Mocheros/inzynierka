@@ -25,6 +25,14 @@
 
   <body>
     <%= render 'layouts/navbar' %>
+    <div class="flash-notifications">
+      <% flash.each do |key, value| %>
+        <div class="alert alert-<%= key == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show" role="alert">
+          <%= value %>
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Zamknij"></button>
+        </div>
+      <% end %>
+    </div>
     <% if request.fullpath.include?("tournaments/") && !request.fullpath.include?("tournaments/new") %>
       <%= render 'layouts/tournament_navbar' %>
     <% end %>

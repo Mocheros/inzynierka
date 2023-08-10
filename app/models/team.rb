@@ -3,4 +3,7 @@ class Team < ApplicationRecord
   belongs_to :tournament
   has_many :favorite_teams_users, class_name: 'FavoriteTeamsUser', foreign_key: :team_id
   has_many :users, through: :favorite_teams_users
+
+  validates :name, presence: true
+  
 end

@@ -907,3 +907,16 @@ span.teams {
 	text-align: center;
 	margin-top: 0.75%;
 }
+.new-players-button{
+	display: flex;
+	justify-content: center;
+	margin-bottom: 3%;
+}
+.flash-notifications {
+  position: fixed;
+	margin-left: 75%;
+	margin-right: 3%;
+	width: 22%;
+	z-index: 10000;
+	background-color: #FCF6F5;
+}

@@ -1,0 +1,24 @@
+.team-page
+  .go-back-arrow{style: "margin-left: 20%; width: 80%;"}
+    = link_to "<- Wróć do drużyny", tournament_team_path(@tournament, @team)
+  %h1{style: "margin-bottom: 2%;"}= "Dodaj zawodników #{@team.name}"
+  %p{style: "text-align: center;"} Każdy z zawodników musi mieć przypisaną pozycje. Numery powinny być z zakresu 0-99.
+  = form_tag tournament_team_players_path(@tournament, @team), data: {turbo: false} do
+    .standings-table
+      %table
+        %thead
+          %tr
+            %th Imie i nazwisko
+            %th Numer
+            %th Pozycja
+        %tbody
+          - 20.times do |i|
+            %tr.field
+              %td= text_field_tag "players[#{i}][name]", nil, id: "player_#{i}_name", autocomplete: "off"
+              %td= number_field_tag "players[#{i}][shirt_number]", nil, id: "player_#{i}_shirt_number", autocomplete: "off"
+              %td
+                - ["Bramkarz", "Obrońca", "Pomocnik", "Napastnik"].each do |pozycja|
+                  = radio_button_tag "players[#{i}][position]", pozycja
+                  = pozycja
+    .new-players-button
+      = submit_tag "Dodaj zawodników", class: "button"
