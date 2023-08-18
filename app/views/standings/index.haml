@@ -14,7 +14,7 @@
       - @standings.each_with_index do |standing, i|
         %tr
           %td{ style: 'font-weight: bold; width: 3%;' }
-            = i+1
+            = "#{i+1}."
           %td{ style: 'text-align: left;' }
             = link_to standing.name, tournament_team_path(@tournament.id, standing.id)
           %td{ style: 'width: 10%;' }
@@ -30,19 +30,3 @@
             \: #{standing.goals_against}
           %td{ style: 'width: 10%;' }
             = standing.points
-
-
-
-        -# %td
-        -#   = form_with(url: toggle_favorite_favorite_teams_users_path, method: :post, remote: true) do |form|
-        -#     = form.hidden_field :team_id, value: standing.id
-        -#     = form.button(type: "submit") do
-        -#       %span.star-icon{"data-team-id" => standing.id}
-        -#         - if current_user.favorite_teams.include?(standing)
-        -#           %i.fas.fa-star
-        -#           / Wypełniona gwiazdka
-        -#         - else
-        -#           %i.far.fa-star
-        -#           / Pusta gwiazdka
-
--# %script{crossorigin: "anonymous", src: "https://kit.fontawesome.com/142bbe0175.js"}

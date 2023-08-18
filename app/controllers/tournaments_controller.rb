@@ -13,6 +13,15 @@ class TournamentsController < ApplicationController
   def favorites
   end
 
+  def show
+    @tournament = Tournament.find(params[:id])
+    @last_games = Game.where(tournament_id: @tournament.id, status: "finished").where.not(date: nil).limit(5).order(date: :desc)
+    @live_games = Game.where(tournament_id: @tournament.id, status: "live").order(:date)
+    @upcoming_games = Game.where(tournament_id: @tournament.id, status: "upcoming").where.not(date: nil).limit(5).order(:date)
+    @standings = Team.where(tournament_id: @tournament.id).order(points: :desc, name: :asc).distinct
+    @top_scorers = Player.joins(:team).where(teams: {tournament_id: @tournament.id}).where('goals > 0 OR assists > 0').order(goals: :desc, assists: :desc).distinct
+  end
+
   # GET /tournaments/new
   def new
     if current_user == nil

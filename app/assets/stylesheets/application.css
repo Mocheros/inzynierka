@@ -614,7 +614,6 @@ select::-ms-expand {
 .rounds {
 	width: 70%;
 	margin: 0;
-
 }
 .game-section {
 	width: 46%;
@@ -692,28 +691,26 @@ span.teams {
 }
 .teams-details{
 	margin-bottom: 1%;
-	margin-left: 20%;
-	margin-right: 20%;
 }
 .vs{
 	display: inline-block;
-	width: 16%;
-	margin-top: 1.5%;
+	width: 10%;
+	margin-top: .5%;
 	text-align: center;
 }
 .vs h2{
 	font-weight: 600;
 }
 .home-team{
-	width: 42%;
+	width: 45%;
 	float: left;
-	text-align: left;
+	text-align: right;
 	padding-left: 3%;
 }
 .away-team{
-	width: 42%;
+	width: 45%;
 	float: right;
-	text-align: right;
+	text-align: left;
 	padding-right: 3%;
 }
 .home-lineups{
@@ -927,4 +924,114 @@ span.teams {
 	text-align: center;
   flex-direction: column;
   align-items: center;
+}
+.tournament-page h1{
+	width: 100%;
+	text-align: center;
+	margin-bottom: 2%;
+}
+.left-container {
+  margin-left: 15%;
+	width: 35%;
+  float: left;
+  box-sizing: border-box;
+}
+.right-container{
+  margin-right: 15%;
+	width: 35%;
+  float: right;
+  box-sizing: border-box;
+}
+.left-container table {
+	border-spacing: 1;
+	border-collapse: collapse;
+	background: white;
+	border-radius: 6px;
+	overflow: hidden;
+	width: 100%;
+	position: relative;
+}
+.left-container table * {
+	position: relative;
+}
+.left-container table th {
+	padding-left: 8px;
+	text-align: center;
+}
+.left-container table td {
+	text-align: right;
+}
+.left-container table thead tr {
+	height: 40px;
+	background: #5CDB95;
+	font-size: 16px;
+}
+.left-container table tbody tr {
+	height: 35px;
+	border-bottom: 1px solid #5CDB95;
+}
+.left-container table tbody tr:last-child {
+	border: 0;
+}
+.left-container a {
+	color: #333;
+	text-decoration: none;
+}
+.left-container th {
+	color: #FCF6F5;
+}
+.left-container tbody td:hover {
+  background-color: #ccc;
+}
+.live-games,
+.last-games,
+.upcoming-games,
+.small-standings-table,
+.small-top-scorers-table {
+  width: 90%;
+  margin-bottom: 20px;
+  box-sizing: border-box;
+}
+
+.right-container table {
+	border-spacing: 1;
+	border-collapse: collapse;
+	background: white;
+	border-radius: 6px;
+	overflow: hidden;
+	width: 100%;
+	position: relative;
+}
+.right-container table * {
+	position: relative;
+}
+.right-container table th {
+	padding-left: 8px;
+	text-align: center;
+}
+.right-container table td {
+	text-align: center;
+}
+.right-container table thead tr {
+	height: 40px;
+	background: #5CDB95;
+	font-size: 16px;
+}
+.right-container table tbody tr {
+	height: 35px;
+	border-bottom: 1px solid #5CDB95;
+}
+.right-container table tbody tr:last-child {
+	border: 0;
+}
+.right-container a {
+	color: #333;
+	text-decoration: none;
+}
+.right-container th {
+	color: #FCF6F5;
+}
+.tournament-page h4{
+	text-align: center;
+	margin-bottom: 2.5%;
 }

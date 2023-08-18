@@ -87,7 +87,7 @@ class GamesController < ApplicationController
           home_team.increment!(:draws, 1)
           home_team.increment!(:points, 1)
           away_team.increment!(:draws, 1)
-          away_goals.increment!(:points, 1)
+          away_team.increment!(:points, 1)
         end
         
         

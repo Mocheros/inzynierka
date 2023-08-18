@@ -18,7 +18,7 @@
         = form.datetime_field :date
       %div
         %h6 Status
-        = form.select :status, options_for_select([["Nadchodzący", "upcoming"], ["Trwa", "live"], ["Zakończony", "finished"]])
+        = form.collection_select :status, [["Nadchodzący", "upcoming"], ["Trwa", "live"], ["Zakończony", "finished"]], :last, :first
       %div
         %h6 Kolejka
         = form.collection_select :round_id, @tournaments_rounds, :id, :name

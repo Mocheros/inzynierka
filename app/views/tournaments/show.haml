@@ -1,0 +1,139 @@
+.tournament-page
+  %h1= @tournament.name
+  .left-container
+    - if @live_games.exists?
+      .live-games
+        %h4 Trwające mecze
+        %table
+          %thead
+            %tr
+              %th
+          %tbody
+            - @live_games.each do |game|
+              %tr
+                %td
+                  = link_to tournament_game_path(@tournament, game), class: "full-cell-link" do
+                    .clickable-content
+                      %span.teams
+                        = game.home_team.name
+                        - if game.status == "upcoming"
+                          vs
+                        - elsif game.status == "live"
+                          %span{style: "color: red; font-weight: 600;"}
+                            \ - vs -
+                        - elsif game.status == "finished"
+                          %span{style: "font-weight: 650;"}
+                            = game.home_score
+                            \- #{game.home_score}
+                        = game.away_team.name
+                      %span
+                        - if game.date == nil
+                          Brak daty
+                        - else
+                          = game.date.strftime('%d.%m.%Y %H:%M')
+    .last-games
+      %h4 Ostatnie wyniki
+      %table
+        %thead
+          %tr
+            %th 
+        %tbody
+          - @last_games.each do |game|
+            %tr
+              %td
+                = link_to tournament_game_path(@tournament, game), class: "full-cell-link" do
+                  .clickable-content
+                    %span.teams
+                      = game.home_team.name
+                      - if game.status == "upcoming"
+                        vs
+                      - elsif game.status == "live"
+                        %span{style: "color: red; font-weight: 600;"}
+                          \ - vs -
+                      - elsif game.status == "finished"
+                        %span{style: "font-weight: 650;"}
+                          = game.home_score
+                          \- #{game.home_score}
+                      = game.away_team.name
+                    %span
+                      - if game.date == nil
+                        Brak daty
+                      - else
+                        = game.date.strftime('%d.%m.%Y %H:%M')
+    .upcoming-games
+      %h4 Nadchodzące mecze
+      %table
+        %thead
+          %tr
+            %th 
+        %tbody
+          - @upcoming_games.each do |game|
+            %tr
+              %td
+                = link_to tournament_game_path(@tournament, game), class: "full-cell-link" do
+                  .clickable-content
+                    %span.teams
+                      = game.home_team.name
+                      - if game.status == "upcoming"
+                        vs
+                      - elsif game.status == "live"
+                        %span{style: "color: red; font-weight: 600;"}
+                          \ - vs -
+                      - elsif game.status == "finished"
+                        %span{style: "font-weight: 650;"}
+                          = game.home_score
+                          \- #{game.home_score}
+                      = game.away_team.name
+                    %span
+                      - if game.date == nil
+                        Brak daty
+                      - else
+                        = game.date.strftime('%d.%m.%Y %H:%M')
+  .right-container
+    .small-standings-table
+      %h4 Tabela
+      %table
+        %thead
+          %tr
+            %th{ style: 'width: 3%;' } #
+            %th{ style: 'text-align: left; width: 32%;' } Drużyna
+            %th{ style: 'width: 10%;' } Mecze
+            %th{ style: 'width: 15%;' } Bramki
+            %th{ style: 'width: 10%;' } Punkty
+        %tbody
+          - @standings.each_with_index do |standing, i|
+            %tr
+              %td{ style: 'font-weight: bold; width: 3%;' }
+                = "#{i+1}."
+              %td{ style: 'text-align: left;' }
+                = link_to standing.name, tournament_team_path(@tournament.id, standing.id)
+              %td{ style: 'width: 10%;' }
+                = standing.games_played
+              %td{ style: 'width: 15%;' }
+                = standing.goals_for
+                \: #{standing.goals_against}
+              %td{ style: 'width: 10%;' }
+                = standing.points
+    .small-top-scorers-table
+      %h4 Strzelcy
+      %table
+        %thead
+          %tr
+            %th{ style: 'width: 3%;' } #
+            %th{ style: 'text-align: left; width: 35%;' } Zawodnik
+            %th{ style: 'text-align: left; width: 35%;' } Drużyna
+            %th{ style: 'width: 12%;' } Gole
+            %th{ style: 'width: 12%;' } Asysty
+        %tbody
+          - @top_scorers.each_with_index do |scorer, i|
+            %tr
+              %td{ style: 'font-weight: bold; width: 3%;' }
+                = "#{i+1}."
+              %td{ style: 'text-align: left; width: 35%;' }
+                = scorer.name
+              %td{ style: 'text-align: left; width: 35%;' }
+                = link_to scorer.team.name, tournament_team_path(@tournament.id, scorer.team.id)
+              %td{ style: 'width: 12%;' }
+                = scorer.goals
+              %td{ style: 'width: 12%;' }
+                = scorer.assists

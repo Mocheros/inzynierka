@@ -2,7 +2,7 @@
   .go-back-arrow{style: "margin-left: 20%; width: 80%;"}
     = link_to "<- Wróć do drużyny", tournament_team_path(@tournament, @team)
   %h1{style: "margin-bottom: 2%;"}= "Dodaj zawodników #{@team.name}"
-  %p{style: "text-align: center;"} Każdy z zawodników musi mieć przypisaną pozycje. Numery powinny być z zakresu 0-99.
+  %p{style: "text-align: center;"} Każdy z zawodników musi mieć przypisaną pozycje. Numery powinny być z zakresu 0-99 i być unikatowe.
   = form_tag tournament_team_players_path(@tournament, @team), data: {turbo: false} do
     .standings-table
       %table
