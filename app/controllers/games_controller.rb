@@ -14,11 +14,9 @@ class GamesController < ApplicationController
     @tournament = Tournament.find(params[:tournament_id])
 
     @home_lineups = Lineup.where(game_id: @game.id, team_id: @game.home_team_id, lineup_type: "starting")
-    @home_goalkeeper = Lineup.find_by(game_id: @game.id, team_id: @game.home_team_id, lineup_type: "goalkeeper")
     @home_subs = Lineup.where(game_id: @game.id, team_id: @game.home_team_id, lineup_type: "substitute")
     
     @away_lineups = Lineup.where(game_id: @game.id, team_id: @game.away_team_id, lineup_type: "starting")
-    @away_goalkeeper = Lineup.find_by(game_id: @game.id, team_id: @game.away_team_id, lineup_type: "goalkeeper")
     @away_subs = Lineup.where(game_id: @game.id, team_id: @game.away_team_id, lineup_type: "substitute")
 
     @game_events = SingleStat.where(game_id: @game.id).order(:minute)

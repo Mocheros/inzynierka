@@ -1,14 +1,25 @@
 .new-lineup-continer
   - if params[:format] == "starting"
     = form_tag tournament_game_team_lineups_path(@tournament, @game, @current_team, @lineup), data: {turbo: false} do
-      .go-back-arrow
-        = link_to "<- Wróć do meczu", tournament_game_path(@tournament, @game)
-      %h2 Skład wyjściowy
+      %h2 Wybierz skład wyjściowy
       .standings-table
         %table
           %thead
             %tr
-              %th{colspan: "3"} Wybierz zawodników
+              %th{colspan: "3"} Wybierz bramkarza
+          %tbody
+            - @goalkeepers.each do |goalkeeper|
+              %tr
+                %td{style: "width: 40px;"}
+                  = radio_button_tag 'goalkeeper_id', goalkeeper.id, @goalkeeper == goalkeeper, class: "radio_box"
+                %td{style: "text-align: left;"}
+                  = "#{goalkeeper.shirt_number}. "
+                  = goalkeeper.name
+                %td
+                  = goalkeeper.position
+          %thead
+            %tr
+              %th{colspan: "3"} Wybierz zawodników z pola
           %tbody
             - @field_players.each_with_index do |field_player, i|
               %tr
@@ -28,16 +39,11 @@
         %table
           %thead
             %tr
-              %th{colspan: "3"} Wybierz rezerwowych
+              %th{scope: "col"} Wybierz rezerwowych
           %tbody
             - @possible_subs.each_with_index do |sub_player, i|
               %tr
                 %td
                   = check_box_tag "subs[#{i}][id]", sub_player.id, @sub_player == sub_player
-                %td{style: "text-align: left;"}
-                  - if sub_player.shirt_number
-                    = "#{sub_player.shirt_number}. "
                   = sub_player.name
-                %td
-                  = sub_player.position
       = submit_tag "Zatwierdź ławke rezerwowych", class: "button"

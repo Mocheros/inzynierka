@@ -17,6 +17,9 @@ class PlayersController < ApplicationController
 
   # GET /players/1/edit
   def edit
+    @tournament = Tournament.find(params[:tournament_id])
+    @team = Team.find(params[:team_id])
+    @player = Player.find(params[:id])
   end
 
   # POST /players or /players.json
@@ -38,14 +41,16 @@ class PlayersController < ApplicationController
 
   # PATCH/PUT /players/1 or /players/1.json
   def update
-    respond_to do |format|
-      if @player.update(player_params)
-        format.html { redirect_to player_url(@player), notice: "Player was successfully updated." }
-        format.json { render :show, status: :ok, location: @player }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @player.errors, status: :unprocessable_entity }
-      end
+    @tournament = Tournament.find(params[:tournament_id])
+    @team = Team.find(params[:team_id])
+    @player = Player.find(params[:id])
+
+    if @player.update(player_params)
+      flash[:notice] = 'Zawodnik został zaktualizowany'
+      redirect_to tournament_team_path(@tournament, @team)
+    else
+      flash[:danger] = 'Zawodnik nie został zaktualizowany!'
+      redirect_to edit_tournament_team_player_path(@tournament, @team)
     end
   end
 

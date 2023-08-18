@@ -1,7 +1,8 @@
 .team-page
-  .admin-button
-    = link_to "Edytuj drużynę", edit_tournament_team_path(@tournament, @team)
-    = link_to "Dodaj zawodników", new_tournament_team_player_path(@tournament, @team)
+  - if current_user && (current_user.id == @tournament.creator_id || @tournament.editors.include?(current_user))
+    .admin-button
+      = link_to "Edytuj drużynę", edit_tournament_team_path(@tournament, @team)
+      = link_to "Dodaj zawodników", new_tournament_team_player_path(@tournament, @team)
   %h1= @team.name
   %h4 Statystyki drużyny
   .standings-table
@@ -40,7 +41,10 @@
         - @players.each do |player|
           %tr
             %td= player.shirt_number
-            %td= player.name
+            - if current_user && (current_user.id == @tournament.creator_id || @tournament.editors.include?(current_user))
+              %td= link_to player.name, edit_tournament_team_player_path(@tournament, @team, player)
+            - else
+              %td= player.name
             %td= player.position
             %td= player.games_played
             %td= player.goals

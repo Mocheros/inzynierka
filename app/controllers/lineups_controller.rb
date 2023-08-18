@@ -1,5 +1,4 @@
 class LineupsController < ApplicationController
-  before_action :set_lineup, only: %i[ show edit update destroy ]
 
   # GET /lineups or /lineups.json
   def index
@@ -13,13 +12,13 @@ class LineupsController < ApplicationController
   # GET /lineups/new
   def new
     if params[:format] == "subs"
-      @starting_lineup ||= Player.joins(:lineups).where("lineups.game_id = ? AND lineups.team_id = ? AND lineups.lineup_type = ? OR lineups.lineup_type = ?", game.id, current_team.id, "starting", "goalkeeper")
+      @starting_lineup ||= Player.joins(:lineups).where("lineups.game_id = ? AND lineups.team_id = ? AND lineups.lineup_type = ?", game.id, current_team.id, "starting")
       @all_team_players ||= Player.where(team_id: current_team.id)
       @possible_subs ||= @all_team_players - @starting_lineup
       @possible_subs = @possible_subs.sort_by { |sub_player| position_order[sub_player.position] }
     end
     @new_starting_lineup = Array.new(11) { Lineup.new }
-    render :new, locals: { tournament: tournament, game: game, goalkeepers: goalkeepers, field_players: field_players, current_team: current_team }
+    render :new, locals: { tournament: tournament, game: game, field_players: field_players, current_team: current_team }
   end
 
   # GET /lineups/1/edit
@@ -28,32 +27,38 @@ class LineupsController < ApplicationController
 
   # POST /lineups or /lineups.json
   def create
-    if params[:goalkeeper_id].present?
-      goalkeeper = Player.find_by(id: params[:goalkeeper_id])
-      Lineup.create(game_id: game.id, player_id: goalkeeper.id, team_id: current_team.id, lineup_type: "goalkeeper")
-      Player.find(params[:goalkeeper_id]).increment!(:games_played, 1)
+
+    if params[:field_players].present? && !params[:subs].present? && !Lineup.where(game_id: game.id, team_id: current_team.id, lineup_type: "starting").exists?
       starting_field_players = params[:field_players].values.pluck(:id).map do |starting_field_player|
         Lineup.create(game_id: game.id, player_id: starting_field_player, team_id: current_team.id, lineup_type: "starting")
         Player.find(starting_field_player).increment!(:games_played, 1)
       end
 
-      if (goalkeeper.save && starting_field_players.compact.all?(&:persisted?))
-        redirect_to new_tournament_game_team_lineup_path(tournament, game, current_team.id, "subs"), notice: 'Lineup was successfully created.'
+      if (starting_field_players.compact.all?(&:persisted?))
+        redirect_to new_tournament_game_team_lineup_path(tournament, game, current_team.id, "subs"), notice: 'Skład wyjściowy dodany!'
       else
-        render :new, locals: { tournament: tournament, game: game, goalkeepers: goalkeepers, field_players: field_players, current_team: current_team }, status: :unprocessable_entity
+        redirect_to new_tournament_game_team_lineup_path(tournament, game, current_team.id, "starting")
       end
 
-    else
+    elsif !params[:field_players].present? && params[:subs].present? && Lineup.where(game_id: game.id, team_id: current_team.id, lineup_type: "starting").exists?
       sub_players = params[:subs].values.pluck(:id).map do |sub_player|
         Lineup.create(game_id: game.id, player_id: sub_player, team_id: current_team.id, lineup_type: "substitute")
       end
 
       if (sub_players.compact.all?(&:persisted?))
-        redirect_to tournament_game_path(tournament, game), notice: 'Lineup was successfully created.'
+        redirect_to tournament_game_path(tournament, game), notice: 'Ławka rezerwowych dodana!'
       else
-        render :new, locals: { tournament: tournament, game: game, goalkeepers: goalkeepers, field_players: field_players, current_team: current_team }, status: :unprocessable_entity
+        redirect_to new_tournament_game_team_lineup_path(tournament, game, current_team.id, "starting")
       end
+    
+    elsif Lineup.where(game_id: game.id, team_id: current_team.id, lineup_type: "starting").exists? && !params[:field_players].present? && !params[:subs].present?
+      redirect_to tournament_game_path(tournament, game), notice: 'Ławka rezerwowych jest pusta'
+
+    elsif !params[:field_players].present? && !Lineup.where(game_id: game.id, team_id: current_team.id, lineup_type: "starting").exists?
+      flash[:error] = "Wybierz zawodników do składu!"
+      redirect_to new_tournament_game_team_lineup_path(tournament, game, current_team.id, "starting")
     end
+    
   end
 
   # PATCH/PUT /lineups/1 or /lineups/1.json
@@ -71,12 +76,17 @@ class LineupsController < ApplicationController
 
   # DELETE /lineups/1 or /lineups/1.json
   def destroy
-    @lineup.destroy
+    @game = Game.find(params[:game_id])
+    @tournament = Tournament.find(params[:tournament_id])
 
-    respond_to do |format|
-      format.html { redirect_to lineups_url, notice: "Lineup was successfully destroyed." }
-      format.json { head :no_content }
+    lineups = Lineup.where(game_id: @game.id, team_id: current_team.id)
+    lineups.each do |lineup|
+      if lineup.lineup_type == "starting"
+        Player.find(lineup.player_id).decrement!(:games_played, 1)
+      end
+      lineup.destroy
     end
+    redirect_to new_tournament_game_team_lineup_path(@tournament, @game, current_team.id, "starting"), notice: "Skład został usunięty"
   end
 
   private
@@ -89,12 +99,8 @@ class LineupsController < ApplicationController
       @tournament ||= Tournament.find(params[:tournament_id])
     end
 
-    def goalkeepers
-      @goalkeepers ||= Player.where(team_id: current_team.id, position: "Bramkarz").order('name asc')
-    end
-
     def field_players
-      @field_players ||= Player.where(team_id: current_team.id).where.not(position: 'Bramkarz').order('name asc').sort_by { |player| position_order[player.position] }
+      @field_players ||= Player.where(team_id: current_team.id).order('name asc').sort_by { |player| position_order[player.position] }
     end
 
     def current_team

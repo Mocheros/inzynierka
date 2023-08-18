@@ -1,8 +1,9 @@
 .game
   .game-details
     .admin-button
-      - unless @game.status == "finished"
-        = link_to "Edytuj mecz", edit_tournament_game_path(@tournament, @game)
+      - if current_user && (current_user.id == @tournament.creator_id || @tournament.editors.include?(current_user))
+        - unless @game.status == "finished"
+          = link_to "Edytuj mecz", edit_tournament_game_path(@tournament, @game)
     .teams-details
       .home-team
         %h1
@@ -17,19 +18,24 @@
       .away-team
         %h1
           = link_to @game.away_team.name, tournament_team_path(@tournament.id, @game.away_team_id)
-    .events-details
-      .home
-        - unless Lineup.where(game_id: @game.id, team_id: @game.home_team_id).present?
-          = link_to "Składy", new_tournament_game_team_lineup_path(@tournament, @game, @game.home_team_id, "starting")
-        %br/ 
-        - unless @game.status == "finished"
-          = link_to "Dodaj wydarzenie", new_tournament_game_team_single_stat_path(@tournament, @game, @game.home_team_id)
-      .away
-        - unless Lineup.where(game_id: @game.id, team_id: @game.away_team_id).present?
-          = link_to "Składy", new_tournament_game_team_lineup_path(@tournament, @game, @game.away_team_id, "starting")
-        %br/ 
-        - unless @game.status == "finished"
-          = link_to "Dodaj wydarzenie", new_tournament_game_team_single_stat_path(@tournament, @game, @game.away_team_id)
+    - if current_user && (current_user.id == @tournament.creator_id || @tournament.editors.include?(current_user))
+      .events-details
+        .home
+          - if Lineup.where(game_id: @game.id, team_id: @game.home_team_id).present?
+            = link_to "Usuń skład", tournament_game_team_lineup_path(@tournament, @game, @game.home_team_id), method: :delete, data: { "turbo-method": :delete, turbo_confirm: 'Czy na pewno chcesz usunąć skład?' }
+          - else
+            = link_to "Składy", new_tournament_game_team_lineup_path(@tournament, @game, @game.home_team_id, "starting")
+          %br/ 
+          - unless @game.status == "finished"
+            = link_to "Wydarzenia", new_tournament_game_team_single_stat_path(@tournament, @game, @game.home_team_id)
+        .away
+          - if Lineup.where(game_id: @game.id, team_id: @game.away_team_id).present?
+            = link_to "Usuń skład", tournament_game_team_lineup_path(@tournament, @game, @game.away_team_id), method: :delete, data: { "turbo-method": :delete, turbo_confirm: 'Czy na pewno chcesz usunąć skład?' }
+          - else
+            = link_to "Składy", new_tournament_game_team_lineup_path(@tournament, @game, @game.away_team_id, "starting")
+          %br/ 
+          - unless @game.status == "finished"
+            = link_to "Wydarzenia", new_tournament_game_team_single_stat_path(@tournament, @game, @game.away_team_id)
     .date-details
       - if @game.date
         %h6= @game.date.strftime('%d.%m.%Y %H:%M')
@@ -41,11 +47,6 @@
           %tr 
             %td
             %th Skład wyjściowy
-          %tr
-            %td.shirt_numbers
-              = @home_goalkeeper.try(:player).try(:shirt_number)
-            %td
-              = @home_goalkeeper.try(:player).try(:name)
           - @home_lineups.each do |lineup|
             %tr
               %td.shirt_numbers
@@ -122,11 +123,6 @@
         %tbody
           %tr 
             %th Skład wyjściowy
-          %tr
-            %td
-              = @away_goalkeeper.try(:player).try(:name)
-            %td.shirt_numbers
-              = @away_goalkeeper.try(:player).try(:shirt_number)
           - @away_lineups.each do |lineup|
             %tr
               %td

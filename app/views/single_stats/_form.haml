@@ -1,7 +1,7 @@
 .single-stat-continer
   .go-back-arrow
     = link_to "<- Wróć do meczu", tournament_game_path(@tournament, @game)
-  %h2{style: "text-align: center; margin-bottom: 1%;"}= "Wydarzenia zespołu #{@current_team.name}"
+  %h2{style: "text-align: center; margin-bottom: 1%;"}= "Wydarzenia #{@current_team.name}"
   .new-stat-box
     %h4 Nowe wydarzenie
     = form_tag tournament_game_team_single_stats_path(@tournament, @game, @current_team, @stat), data: {turbo: false} do
