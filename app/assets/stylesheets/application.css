@@ -863,6 +863,8 @@ span.teams {
 }
 .last-tournaments .standings-table{
 	margin-top: 2%;
+	margin-left: 12%;
+	margin-right: 12%;
 }
 .new-stat-box .toggle-track span {
 	font-size: 12px;

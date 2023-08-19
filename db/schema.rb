@@ -10,17 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_05_131958) do
+ActiveRecord::Schema[7.0].define(version: 2023_08_19_102947) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
-
-  create_table "favorite_teams_users", id: false, force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "team_id"
-    t.index ["team_id"], name: "index_favorite_teams_users_on_team_id"
-    t.index ["user_id"], name: "index_favorite_teams_users_on_user_id"
-  end
 
   create_table "games", force: :cascade do |t|
     t.integer "home_team_id"
