@@ -7,6 +7,7 @@ class PlayersController < ApplicationController
 
   # GET /players/1 or /players/1.json
   def show
+    redirect_to tournament_team_path(tournament, team)
   end
 
   # GET /players/new
@@ -17,9 +18,15 @@ class PlayersController < ApplicationController
 
   # GET /players/1/edit
   def edit
-    @tournament = Tournament.find(params[:tournament_id])
-    @team = Team.find(params[:team_id])
-    @player = Player.find(params[:id])
+    begin
+      @player = Player.find(params[:id])
+      @tournament = Tournament.find(params[:tournament_id])
+      @team = Team.find(params[:team_id])
+      @player_has_stats = SingleStat.where("first_player_id = ? OR second_player_id = ?", @player.id, @player.id).exists?
+      @player_has_lineups = Lineup.where(player_id: @player.id).exists?
+    rescue ActiveRecord::RecordNotFound
+      redirect_to tournament_team_path(tournament, team)
+    end
   end
 
   # POST /players or /players.json
@@ -50,17 +57,17 @@ class PlayersController < ApplicationController
       redirect_to tournament_team_path(@tournament, @team)
     else
       flash[:danger] = 'Zawodnik nie został zaktualizowany!'
-      redirect_to edit_tournament_team_player_path(@tournament, @team)
+      redirect_to edit_tournament_team_player_path(@tournament, @team, @player)
     end
   end
 
   # DELETE /players/1 or /players/1.json
   def destroy
-    @player.destroy
+    player = Player.find(params[:id])
 
+    player.destroy
     respond_to do |format|
-      format.html { redirect_to players_url, notice: "Player was successfully destroyed." }
-      format.json { head :no_content }
+      format.js {render inline: "location.reload();" }
     end
   end
 

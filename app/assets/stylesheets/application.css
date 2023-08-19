@@ -1056,3 +1056,11 @@ form input[type="submit"]{
 form input[type="submit"]:hover{
 	color: #183eb8;
 }
+.delete-player .button{
+	background-color: #ff4f4f !important;
+	border: none !important;
+}
+.delete-player a:hover{
+	background-color: #ff7a7a !important;
+	border: none !important;
+}

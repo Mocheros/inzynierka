@@ -15,3 +15,11 @@
         = form.collection_select :position, ["Bramkarz", "Obrońca", "Pomocnik", "Napastnik"], :itself, :itself, prompt: "Wybierz pozycję"
       %div
         = form.button "Edytuj", class: "button"
+
+  %h2{style: "text-align: center; margin-top: 4%; margin-bottom: 2%;"}= "Usuń zawodnika"
+  .edit-game
+    .delete-player
+      - if @player_has_stats || @player_has_lineups
+        %h5 Nie można usunąć zawodnika, ponieważ ma on udział w statystykach
+      - else
+        = link_to "Usuń", tournament_team_player_path(@tournament, @team, @player), method: :delete, data: { "turbo-method": :delete, turbo_confirm: 'Czy na pewno chcesz usunąć tego zawodnika?' }, class: "button"
