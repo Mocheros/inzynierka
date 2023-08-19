@@ -17,7 +17,7 @@
               %i.bi.bi-person-circle
             %ul.dropdown-menu{"aria-labelledby" => "navbarScrollingDropdown"}
               %li
-                = link_to "Moje konto", root_path, class: "dropdown-item"
+                = link_to "Moje konto", edit_user_registration_path(current_user), class: "dropdown-item"
               %li
                 = link_to "Ulubione drużyny", favorites_path, class: "dropdown-item"
               %li

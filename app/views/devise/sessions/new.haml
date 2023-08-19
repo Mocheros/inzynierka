@@ -15,7 +15,6 @@
           %span lub
           = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "email"
           = f.password_field :password, autocomplete: "current-password", placeholder: "hasło"
-          = link_to "Zapomniałeś hasła?", new_password_path(resource_name)
           %br/
           = f.button "Zaloguj się", data: {turbo: false}
     .overlay-container

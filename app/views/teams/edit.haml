@@ -1,7 +1,7 @@
 .edit-game-continer
   .go-back-arrow
     = link_to "<- Wróć", tournament_team_path(@tournament, @team)
-  %h2{style: "text-align: center; margin-bottom: 1%;"}= "Edytuj mecz"
+  %h2{style: "text-align: center; margin-bottom: 1%;"}= "Edytuj drużynę"
   .edit-game
     = form_for [@tournament, @team], data: {turbo: false} do |form|
       %div

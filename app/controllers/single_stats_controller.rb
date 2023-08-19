@@ -59,7 +59,7 @@ class SingleStatsController < ApplicationController
     end
 
     if @single_stat.save
-      redirect_to tournament_game_path(tournament, game), notice: "Single stat was successfully created."
+      redirect_to tournament_game_path(tournament, game), notice: "Wydarzenie zostało utworzone"
     else
       render root_path
     end
@@ -99,7 +99,7 @@ class SingleStatsController < ApplicationController
         Player.find(@single_stat.first_player_id).decrement!(:games_played, 1)
       end
 
-      redirect_to new_tournament_game_team_single_stat_path(tournament, game, @single_stat.team_id), notice: "Single stat was successfully destroyed."
+      redirect_to new_tournament_game_team_single_stat_path(tournament, game, @single_stat.team_id), notice: "Wydarzenie zostało usunięte"
     else
       nil
     end

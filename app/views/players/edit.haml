@@ -1,7 +1,7 @@
 .edit-game-continer
   .go-back-arrow
     = link_to "<- Wróć", tournament_team_path(@tournament, @team)
-  %h2{style: "text-align: center; margin-bottom: 1%;"}= "Edytuj mecz"
+  %h2{style: "text-align: center; margin-bottom: 1%;"}= "Edytuj zawodnika"
   .edit-game
     = form_for [@tournament, @team, @player], data: {turbo: false} do |form|
       %div
@@ -15,16 +15,3 @@
         = form.collection_select :position, ["Bramkarz", "Obrońca", "Pomocnik", "Napastnik"], :itself, :itself, prompt: "Wybierz pozycję"
       %div
         = form.button "Edytuj", class: "button"
-
-
-
-
-
-  -# - if game.errors.any?
-  -#   %div{style: "color: red"}
-  -#     %h2
-  -#       = pluralize(game.errors.count, "error")
-  -#       prohibited this game from being saved:
-  -#     %ul
-  -#       - game.errors.each do |error|
-  -#         %li= error.full_message

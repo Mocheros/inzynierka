@@ -24,16 +24,3 @@
         = form.collection_select :round_id, @tournaments_rounds, :id, :name
       %div
         = form.button "Edytuj", class: "button"
-
-
-
-
-
-  -# - if game.errors.any?
-  -#   %div{style: "color: red"}
-  -#     %h2
-  -#       = pluralize(game.errors.count, "error")
-  -#       prohibited this game from being saved:
-  -#     %ul
-  -#       - game.errors.each do |error|
-  -#         %li= error.full_message

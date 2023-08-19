@@ -208,6 +208,7 @@ body{
 }
 .google-button:hover {
 	box-shadow: 0 0 10px #4285f4 !important;
+	cursor: pointer !important;
 }
 .google-form {
 	all: unset !important;

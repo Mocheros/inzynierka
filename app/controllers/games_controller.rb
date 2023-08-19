@@ -44,7 +44,7 @@ class GamesController < ApplicationController
 
     respond_to do |format|
       if @game.save
-        format.html { redirect_to tournament_game_path(@tournament, @game), notice: "Game was successfully created." }
+        format.html { redirect_to tournament_game_path(@tournament, @game)}
         format.json { render :show, status: :created, location: @game }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -92,7 +92,7 @@ class GamesController < ApplicationController
         
         
       end
-      redirect_to tournament_game_path(@tournament, @game), notice: "Game was successfully updated."
+      redirect_to tournament_game_path(@tournament, @game), notice: "Mecz został zaktualizowany"
     # else
     #   format.html { render :edit, status: :unprocessable_entity }
     #   format.json { render json: @game.errors, status: :unprocessable_entity }
