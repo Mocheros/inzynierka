@@ -4,6 +4,9 @@ class User < ApplicationRecord
   has_many :tournament_editors, dependent: :destroy
   has_many :editable_tournaments, through: :tournament_editors, source: :tournament
 
+  has_many :favorites
+  has_many :favorite_teams, through: :favorites, source: :team
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [:google_oauth2]

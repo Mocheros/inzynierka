@@ -10,4 +10,8 @@ class HomeController < ApplicationController
         @my_tournaments = Tournament.where(creator_id: current_user.id).order(created_at: :desc)
         @editable_tournaments = current_user.editable_tournaments
     end
+
+    def favorites
+        @favorite_teams = Favorite.includes(team: :tournament).where(user_id: current_user.id)
+    end
 end

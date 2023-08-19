@@ -1,0 +1,16 @@
+.last-tournaments
+  %h2 Ulubione drużyny
+  .standings-table
+    %table
+      %thead
+        %tr
+          %th{style: "text-align: left;"} Drużyna
+          %th Turniej
+      %tbody
+        - @favorite_teams.each_with_index do |favorite|
+          %tr
+            %td{style: "text-align: left;"}
+              = link_to favorite.team.name, tournament_team_path(favorite.team.tournament_id, favorite.team.id)
+            %td
+              = link_to favorite.team.tournament.name, tournament_path(favorite.team.tournament_id)
+

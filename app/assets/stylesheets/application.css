@@ -804,10 +804,6 @@ span.teams {
 .current-stats-box .standings-table tbody tr:hover {
   background-color: white;
 }
-.go-back-arrow a{
-	color: #333;
-	text-decoration: none;
-}
 .events-details{
 	width: 100%;
 	padding: 0 5% 3% 5%;
@@ -845,6 +841,10 @@ span.teams {
 .go-back-arrow{
 	width: 100%;
 	text-align: left !important;
+}
+.go-back-arrow a{
+	color: #333;
+	text-decoration: none;
 }
 .edit-game{
 	width: 35%;
@@ -1036,4 +1036,22 @@ span.teams {
 .tournament-page h4{
 	text-align: center;
 	margin-bottom: 2.5%;
+}
+.favorite-button{
+	margin-left: 50%;
+	margin-right: 25%;
+	text-align: right !important;
+}
+form input[type="submit"]{
+	background: none;
+	border: none;
+	text-decoration: underline;
+	cursor: pointer;
+}
+.favorite-button a, form input[type="submit"]{
+	color: #333;
+	text-decoration: none;
+}
+form input[type="submit"]:hover{
+	color: #183eb8;
 }

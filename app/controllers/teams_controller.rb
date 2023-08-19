@@ -16,6 +16,8 @@ class TeamsController < ApplicationController
     @tournament = Tournament.find(params['tournament_id'])
     position_order = {'Bramkarz' => 0,'Obrońca' => 1,'Pomocnik' => 2,'Napastnik' => 3}
     @players = Player.where(team_id: team.id).order('name asc').sort_by { |p| position_order[p.position] }
+    @favorite = Favorite.new
+    @has_favorite = Favorite.where(user_id: current_user.id, team_id: @team.id).exists?
   end
 
   # GET /teams/new

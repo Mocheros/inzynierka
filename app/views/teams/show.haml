@@ -4,6 +4,12 @@
       = link_to "Edytuj drużynę", edit_tournament_team_path(@tournament, @team)
       = link_to "Dodaj zawodników", new_tournament_team_player_path(@tournament, @team)
   %h1= @team.name
+  .favorite-button
+    - if @has_favorite
+      = link_to "Usuń z ulubionych", tournament_team_favorite_path(@tournament, @team), method: :delete, data: { "turbo-method": :delete}
+    - else
+      = form_with(model: @favorite, url: tournament_team_favorites_path(@tournament, @team), method: :post, data: {turbo: false}) do |form|
+        = form.submit "Dodaj do ulubionych", class: "link_to"
   %h4 Statystyki drużyny
   .standings-table
     %table{style: "width: 40%;"}
