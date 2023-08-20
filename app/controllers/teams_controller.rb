@@ -17,8 +17,10 @@ class TeamsController < ApplicationController
     position_order = {'Bramkarz' => 0,'Obrońca' => 1,'Pomocnik' => 2,'Napastnik' => 3}
     @players = Player.where(team_id: team.id).order('name asc').sort_by { |p| position_order[p.position] }
     @favorite = Favorite.new
-    @has_favorite = Favorite.where(user_id: current_user.id, team_id: @team.id).exists?
-  end
+    if current_user
+      @has_favorite = Favorite.where(user_id: current_user.id, team_id: @team.id).exists?
+    end
+    end
 
   # GET /teams/new
   def new

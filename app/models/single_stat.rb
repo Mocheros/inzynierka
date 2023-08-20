@@ -5,6 +5,9 @@ class SingleStat < ApplicationRecord
   belongs_to :first_player , class_name: 'Player'
   belongs_to :second_player , class_name: 'Player', optional: true
 
+  validates :first_player_id, presence: true
+  validates :stat_type, presence: true
+
   enum stat_type: { goal: 'Bramka', own_goal: 'Bramka samobójcza', yellow_card: 'Żółta kartka', red_card: 'Czerwona kartka', subs: 'Zmiana'}
 
 

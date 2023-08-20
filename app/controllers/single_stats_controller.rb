@@ -30,6 +30,12 @@ class SingleStatsController < ApplicationController
 
   # POST /single_stats or /single_stats.json
   def create
+    if params[:goal_first_player].blank? && params[:goal_second_player].blank? && params[:own_goal_player].blank? && params[:yellow_card_player].blank? && params[:red_card_player].blank? && params[:sub_on_player].blank? && params[:sub_off_player].blank? || (!params[:sub_on_player].blank? && params[:sub_off_player].blank?) || (params[:sub_on_player].blank? && !params[:sub_off_player].blank?) || (params[:goal_first_player].blank? && !params[:goal_second_player].blank?)
+      flash[:error] = "Rodzaj wydarzenia i jego zawodnik nie mogą być puste"
+      redirect_to new_tournament_game_team_single_stat_path(tournament, game, current_team)
+      return
+    end
+
     @players = Player.where(team_id: current_team.id).all.to_a.map{ |c| [c.name, c.id]}
     if params[:second_player].present?
       @single_stat = SingleStat.create(game_id: game.id, team_id: current_team.id, first_player_id: params[:first_player], second_player_id: params[:second_player], minute: params[:minute], stat_type: params[:stat_type])
@@ -61,7 +67,8 @@ class SingleStatsController < ApplicationController
     if @single_stat.save
       redirect_to tournament_game_path(tournament, game), notice: "Wydarzenie zostało utworzone"
     else
-      render root_path
+      flash[:error] = "Rodzaj wydarzenia i jego zawodnik nie mogą być puste"
+      redirect_to new_tournament_game_team_single_stat_path(tournament, game, current_team)
     end
   end
 

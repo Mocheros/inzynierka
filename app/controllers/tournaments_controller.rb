@@ -37,7 +37,17 @@ class TournamentsController < ApplicationController
 
   # POST /tournaments or /tournaments.json
   def create
+    if params[:tournament][:number_of_teams_league].blank?
+      number_of_teams = params[:tournament][:number_of_teams_cup]
+    elsif params[:tournament][:number_of_teams_cup].blank?
+      number_of_teams = params[:tournament][:number_of_teams_league]
+    else
+      flash[:danger] = 'Błąd podczas tworzenia turnieju'
+      redirect_to new_tournament_path
+    end
+
     @tournament = Tournament.new(tournament_params)
+    @tournament.update(number_of_teams: number_of_teams)
 
     if @tournament.save
       teams = []
@@ -128,7 +138,7 @@ class TournamentsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tournament_params
-      params.require(:tournament).permit(:name, :format, :number_of_teams, :private, :creator_id)
+      params.require(:tournament).permit(:name, :format, :private, :creator_id)
     end
 
     def editor_params

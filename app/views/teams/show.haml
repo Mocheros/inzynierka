@@ -5,11 +5,12 @@
       = link_to "Dodaj zawodników", new_tournament_team_player_path(@tournament, @team)
   %h1= @team.name
   .favorite-button
-    - if @has_favorite
-      = link_to "Usuń z ulubionych", tournament_team_favorite_path(@tournament, @team), method: :delete, data: { "turbo-method": :delete}
-    - else
-      = form_with(model: @favorite, url: tournament_team_favorites_path(@tournament, @team), method: :post, data: {turbo: false}) do |form|
-        = form.submit "Dodaj do ulubionych", class: "link_to"
+    - if current_user
+      - if @has_favorite
+        = link_to "Usuń z ulubionych", tournament_team_favorite_path(@tournament, @team), method: :delete, data: { "turbo-method": :delete}
+      - else
+        = form_with(model: @favorite, url: tournament_team_favorites_path(@tournament, @team), method: :post, data: {turbo: false}) do |form|
+          = form.submit "Dodaj do ulubionych", class: "link_to"
   %h4 Statystyki drużyny
   .standings-table
     %table{style: "width: 40%;"}
@@ -20,7 +21,8 @@
         %th{ style: 'width: 10%;' } Przegrane
         %th{ style: 'width: 15%;' } Bramki strzelone
         %th{ style: 'width: 15%;' } Bramki stracone
-        %th{ style: 'width: 10%;' } Punkty
+        - if !@tournament.format == "System pucharowy"
+          %th{ style: 'width: 10%;' } Punkty
       %tbody
         %tr
           %td= @team.games_played
@@ -29,7 +31,8 @@
           %td= @team.defeats
           %td= @team.goals_for
           %td= @team.goals_against
-          %td= @team.points
+          - if !@tournament.format == "System pucharowy"
+            %td= @team.points
   %h4 Zawodnicy
   .standings-table
     %table

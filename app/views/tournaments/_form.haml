@@ -1,7 +1,10 @@
 = form_with(model: tournament, data: {turbo: false}) do |form|
   = form.text_field :name, placeholder: "Nazwa", autocomplete: "off", style: "margin-top: 30px;"
   = form.select :format, options_for_select(["System ligowy", "System ligowy z rewanżami", "System pucharowy"], selected: nil), include_blank: "Rodzaj turnieju"
-  = form.select :number_of_teams, options_for_select([["Ilość drużyn", nil]] + (1..64).to_a.map { |num| [num, num] }, selected: nil, disabled: nil)
+  %div.first_team_select
+    = form.select :number_of_teams_league, options_for_select([["Ilość drużyn", nil]] + (1..64).to_a.map { |num| [num, num] }, selected: nil, disabled: nil)
+  %div.second_team_select
+    = form.select :number_of_teams_cup, options_for_select([2, 4, 8, 16, 32, 64, 128, 256], selected: nil), include_blank: "Ilość drużyn"
   %label.toggle{for: "uniqueID"}
     = form.check_box :private, class: 'toggle__input', id: 'uniqueID'
     %span.toggle-track
@@ -13,3 +16,26 @@
   = form.hidden_field :creator_id, value: current_user.id
   %div
     = form.button "Utwórz turniej"
+
+  :javascript
+      $(document).ready(function() {
+      $('.first_team_select').hide();
+      $('.second_team_select').hide();
+
+      function toggleDivs() {
+        var selectedOption = $('#tournament_format').val();
+        if (selectedOption === 'System ligowy' || selectedOption === 'System ligowy z rewanżami') {
+          $('.first_team_select').show();
+          $('.second_team_select').hide();
+          $('#tournament_number_of_teams_cup').val(""); // Zerowanie drugiego selecta
+        } 
+        else if(selectedOption === 'System pucharowy') {
+          $('.first_team_select').hide();
+          $('.second_team_select').show();
+          $('#tournament_number_of_teams_league').val(""); // Zerowanie pierwszego selecta
+        }
+      }
+
+      toggleDivs();
+      $('#tournament_format').on('change', toggleDivs);
+    });

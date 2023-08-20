@@ -14,7 +14,10 @@
                   = link_to tournament_game_path(@tournament, game), class: "full-cell-link" do
                     .clickable-content
                       %span.teams
-                        = game.home_team.name
+                        - if game.home_team_id
+                          = game.try(:home_team).try(:name)
+                        - else
+                          = "#{game.first_previous_game.try(:home_team).try(:name)} / #{game.first_previous_game.try(:away_team).try(:name)}"
                         - if game.status == "upcoming"
                           vs
                         - elsif game.status == "live"
@@ -23,8 +26,11 @@
                         - elsif game.status == "finished"
                           %span{style: "font-weight: 650;"}
                             = game.home_score
-                            \- #{game.home_score}
-                        = game.away_team.name
+                            \- #{game.away_score}
+                        - if game.away_team_id
+                          = game.try(:away_team).try(:name)
+                        - else
+                          = "#{game.second_previous_game.try(:home_team).try(:name)} / #{game.second_previous_game.try(:away_team).try(:name)}"
                       %span
                         - if game.date == nil
                           Brak daty
