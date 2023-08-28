@@ -1,0 +1,97 @@
+.main-page
+  .first-panel
+    .content
+      %h1   
+        Mistrzostwa w
+        %span{style: "color: #2BAE66;"} Twoich
+        Rękach!
+        %h1
+      %br
+      %br
+      %br
+      %h5 
+        Nie musisz być zawodowym organizatorem, by tworzyć profesjonalne turnieje piłkarskie. 
+        %span{style: "color: #2BAE66; font-weight: 700;"} Scoreline 
+        czyni to proste i ekscytujące! 
+        %h5
+      %br
+      %br
+      %br
+      = link_to "Zacznij już teraz!", new_tournament_path, class: "button"
+  .second-panel
+    .left-article
+      .icon
+        %i.fa-solid.fa-trophy
+      .text
+        %h4 Tworzenie i Zarządzanie Turniejami
+        %p Twórz niesamowite turnieje piłkarskie z wybranym formatem, własnymi drużynami i harmonogramem.
+    .right-article
+      .text
+        %h4 Dynamiczny Terminarz
+        %p Nasz inteligentny system automatycznie generuje terminarz turnieju w sposób losowy, zapewniając ekscytujące pojedynki.
+      .icon
+        %i.fa-regular.fa-calendar-days
+    .left-article
+      .icon
+        %i.fa-solid.fa-shirt
+      .text
+        %h4 Zarządzanie meczem
+        %p Wprowadzaj dane, składy wyjściowe, ławkę rezerwowych oraz najważniejsze wydarzenia do każdego ze spotkań.
+    .right-article
+      .text
+        %h4 Przeglądanie Statystyk
+        %p Monitoruj osiągnięcia drużyn i graczy na przestrzeni turnieju, takie jak gole, asysty i kartki.
+      .icon
+        %i.fa-solid.fa-futbol
+    .left-article
+      .icon
+        %i.fa-solid.fa-display
+      .text
+        %h4 Śledzenie Wydarzeń na Żywo
+        %p Dzięki naszemu systemowi śledzenia na żywo, możesz śledzić aktualny wynik i cieszyć się emocjami z meczów w czasie rzeczywistym.
+    .right-article
+      .text
+        %h4 Dzielenie się Pasją
+        %p Nie jesteś sam w zarządzaniu turniejami! Dodaj moderatorów, aby wspólnie pracować nad aktualizowaniem danych turnieju.
+      .icon
+        %i.fa-solid.fa-screwdriver-wrench
+    .left-article
+      .icon
+        %i.fa-solid.fa-handshake
+      .text
+        %h4 Społeczność Pasjonatów
+        %p Udostępniaj turniej trenerom, zawodnikom oraz kibicom, aby mogli śledzić poczynania ich ulubionej drużyny razem z Tobą!
+  %hr.main-page-hr
+  .third-panel
+    .carousel
+      #carouselExampleIndicators.carousel.slide{"data-bs-ride" => "carousel"}
+        .carousel-indicators
+          %button.active{"aria-current" => "true", "aria-label" => "Slide 1", "data-bs-slide-to" => "0", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
+          %button{"aria-label" => "Slide 2", "data-bs-slide-to" => "1", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
+          %button{"aria-label" => "Slide 3", "data-bs-slide-to" => "2", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
+          %button{"aria-label" => "Slide 4", "data-bs-slide-to" => "3", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
+          %button{"aria-label" => "Slide 5", "data-bs-slide-to" => "4", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
+          %button{"aria-label" => "Slide 6", "data-bs-slide-to" => "5", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
+        .carousel-inner
+          .carousel-item.active
+            %img.d-block.w-100{alt: "...", src: "/assets/edit-tournament.png"}/
+          .carousel-item
+            %img.d-block.w-100{alt: "...", src: "/assets/game-details.png"}/
+          .carousel-item
+            %img.d-block.w-100{alt: "...", src: "/assets/games-page.png"}/
+          .carousel-item
+            %img.d-block.w-100{alt: "...", src: "/assets/single-stats-page.png"}/
+          .carousel-item
+            %img.d-block.w-100{alt: "...", src: "/assets/team-page.png"}/
+          .carousel-item
+            %img.d-block.w-100{alt: "...", src: "/assets/tournament-page.png"}/
+        %button.carousel-control-prev{"data-bs-slide" => "prev", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
+          %span.carousel-control-prev-icon{"aria-hidden" => "true"}
+          %span.visually-hidden Previous
+        %button.carousel-control-next{"data-bs-slide" => "next", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
+          %span.carousel-control-next-icon{"aria-hidden" => "true"}
+          %span.visually-hidden Next
+  %hr.main-page-hr
+  .fourth-panel
+
+%script{crossorigin: "anonymous", src: "https://kit.fontawesome.com/142bbe0175.js"}

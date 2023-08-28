@@ -26,7 +26,7 @@
                       - elsif game.status == "finished"
                         %span{style: "font-weight: 650;"}
                           = game.home_score
-                          \- #{game.home_score}
+                          \- #{game.away_score}
                       - if game.away_team_id
                         = game.try(:away_team).try(:name)
                       - else
@@ -61,7 +61,7 @@
                       - elsif game.status == "finished"
                         %span{style: "font-weight: 650;"}
                           = game.home_score
-                          \- #{game.home_score}
+                          \- #{game.away_score}
                       - if game.away_team_id
                         = game.try(:away_team).try(:name)
                       - else
@@ -96,7 +96,7 @@
                       - elsif game.status == "finished"
                         %span{style: "font-weight: 650;"}
                           = game.home_score
-                          \- #{game.home_score}
+                          \- #{game.away_score}
                       - if game.away_team_id
                         = game.try(:away_team).try(:name)
                       - else
@@ -107,7 +107,7 @@
                       - else
                         = game.date.strftime('%d.%m.%Y %H:%M')
   .right-container
-    - if !@tournament.format == "System pucharowy"
+    - unless @tournament.format == "System pucharowy"
       .small-standings-table
         %h4 Tabela
         %table
