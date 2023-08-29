@@ -1,6 +1,6 @@
 class TournamentsController < ApplicationController
   before_action :set_tournament, only: %i[ show edit update destroy ]
-
+  before_action :check_permission, only: [:edit]
   # GET /tournaments or /tournaments.json
   def index
     @tournaments = Tournament.all
@@ -134,6 +134,13 @@ class TournamentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_tournament
       @tournament = Tournament.find(params[:id])
+    end
+
+    def check_permission
+      if !current_user || (current_user.id != @tournament.creator_id && !@tournament.editors.include?(current_user))
+        flash[:danger] = 'Nie masz uprawnień do wykonania tej akcji.'
+        redirect_to tournament_path(@tournament)
+      end
     end
 
     # Only allow a list of trusted parameters through.

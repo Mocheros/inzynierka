@@ -74,6 +74,8 @@
           %button{"aria-label" => "Slide 6", "data-bs-slide-to" => "5", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
         .carousel-inner
           .carousel-item.active
+            %img.d-block.w-100{alt: "...", src: "/assets/tournament-page.png"}/
+          .carousel-item
             %img.d-block.w-100{alt: "...", src: "/assets/edit-tournament.png"}/
           .carousel-item
             %img.d-block.w-100{alt: "...", src: "/assets/game-details.png"}/
@@ -83,8 +85,6 @@
             %img.d-block.w-100{alt: "...", src: "/assets/single-stats-page.png"}/
           .carousel-item
             %img.d-block.w-100{alt: "...", src: "/assets/team-page.png"}/
-          .carousel-item
-            %img.d-block.w-100{alt: "...", src: "/assets/tournament-page.png"}/
         %button.carousel-control-prev{"data-bs-slide" => "prev", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
           %span.carousel-control-prev-icon{"aria-hidden" => "true"}
           %span.visually-hidden Previous
@@ -93,5 +93,11 @@
           %span.visually-hidden Next
   %hr.main-page-hr
   .fourth-panel
-
+    %h1 Odkryj Nowy Wymiar Futbolowych Zawodów!
+    %br
+    %br
+    %h5 Przekształć swoją pasję w interaktywną rzeczywistość. Nasza aplikacja daje Ci kontrolę nad każdym aspektem turnieju, od składu po statystyki. Dołącz i zobacz, jak Twoje marzenia o piłkarskich triumfach stają się rzeczywistością!
+    %br
+    %br
+    = link_to "Dołącz już teraz!", new_tournament_path, class: "button"
 %script{crossorigin: "anonymous", src: "https://kit.fontawesome.com/142bbe0175.js"}

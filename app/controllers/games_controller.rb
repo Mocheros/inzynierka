@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   before_action :set_game, only: %i[ show edit update destroy ]
-
+  before_action :check_permission, only: [:edit]
   # GET /games or /games.json
   def index
     @games = Game.all
@@ -145,6 +145,13 @@ class GamesController < ApplicationController
     # Only allow a list of trusted parameters through.
     def game_params
       params.require(:game).permit(:home_team_id, :away_team_id, :home_score, :away_score, :location, :date, :status, :round_id)
+    end
+
+    def check_permission
+      if !current_user || (current_user.id != tournament.creator_id && !tournament.editors.include?(current_user))
+        flash[:danger] = 'Nie masz uprawnień do wykonania tej akcji.'
+        redirect_to tournament_path(tournament)
+      end
     end
 
     def tournament

@@ -1,5 +1,5 @@
 class SingleStatsController < ApplicationController
-
+  before_action :check_permission, only: [:new]
   # GET /single_stats or /single_stats.json
   def index
     @single_stats = SingleStat.all
@@ -124,6 +124,13 @@ class SingleStatsController < ApplicationController
 
     def current_team
       @current_team ||= Team.find(params[:team_id])
+    end
+
+    def check_permission
+      if !current_user || (current_user.id != tournament.creator_id && !tournament.editors.include?(current_user))
+        flash[:danger] = 'Nie masz uprawnień do wykonania tej akcji.'
+        redirect_to tournament_path(tournament)
+      end
     end
 
     # Only allow a list of trusted parameters through.

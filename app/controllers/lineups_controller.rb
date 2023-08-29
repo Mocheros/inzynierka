@@ -1,5 +1,5 @@
 class LineupsController < ApplicationController
-
+  before_action :check_permission, only: [:new]
   # GET /lineups or /lineups.json
   def index
     @lineups = Lineup.all
@@ -109,6 +109,13 @@ class LineupsController < ApplicationController
 
     def position_order
       position_order = {'Bramkarz' => 0, 'Obrońca' => 1, 'Pomocnik' => 2, 'Napastnik' => 3}
+    end
+
+    def check_permission
+      if !current_user || (current_user.id != tournament.creator_id && !tournament.editors.include?(current_user))
+        flash[:danger] = 'Nie masz uprawnień do wykonania tej akcji.'
+        redirect_to tournament_path(tournament)
+      end
     end
 
     # Only allow a list of trusted parameters through.

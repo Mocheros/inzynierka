@@ -1,5 +1,5 @@
 class PlayersController < ApplicationController
-
+  before_action :check_permission, only: [:new, :edit]
   # GET /players or /players.json
   def index
     @players = Player.all
@@ -84,6 +84,13 @@ class PlayersController < ApplicationController
 
     def player
       @player ||= Player.find(params[:id])
+    end
+
+    def check_permission
+      if !current_user || (current_user.id != tournament.creator_id && !tournament.editors.include?(current_user))
+        flash[:danger] = 'Nie masz uprawnień do wykonania tej akcji.'
+        redirect_to tournament_path(tournament)
+      end
     end
 
     # Only allow a list of trusted parameters through.

@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-
+  before_action :check_permission, only: [:edit]
   # GET /teams or /teams.json
   def index
     @tournament = Tournament.find(params['tournament_id'])
@@ -75,6 +75,17 @@ class TeamsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def team
       @team = Team.find(params[:id])
+    end
+
+    def tournament
+      @tournament ||= Tournament.find(params[:tournament_id])
+    end
+
+    def check_permission
+      if !current_user || (current_user.id != tournament.creator_id && !tournament.editors.include?(current_user))
+        flash[:danger] = 'Nie masz uprawnień do wykonania tej akcji.'
+        redirect_to tournament_path(tournament)
+      end
     end
 
     # Only allow a list of trusted parameters through.
