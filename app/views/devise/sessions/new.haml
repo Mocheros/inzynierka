@@ -10,7 +10,7 @@
               method: :post,                                         |
               class: "google-form",                                  |
               data: {turbo: "false"} do |f|                          |
-              = f.submit "Login", type: "image", src: url_for("/assets/google-button.png"), class: "google-button"
+              = image_submit_tag("google-button.png", class: "google-button")
         = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
           %span lub
           = f.email_field :email, autofocus: true, autocomplete: "email", placeholder: "email"
