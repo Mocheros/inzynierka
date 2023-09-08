@@ -74,17 +74,17 @@
           %button{"aria-label" => "Slide 6", "data-bs-slide-to" => "5", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
         .carousel-inner
           .carousel-item.active
-            %img.d-block.w-100{alt: "...", src: "/assets/tournament-page.png"}/
+            = image_submit_tag("tournament-page.png", alt: "Alt text", class: "d-block w-100")
           .carousel-item
-            %img.d-block.w-100{alt: "...", src: "/assets/edit-tournament.png"}/
+            = image_submit_tag("edit-tournament.png", alt: "Alt text", class: "d-block w-100")
           .carousel-item
-            %img.d-block.w-100{alt: "...", src: "/assets/game-details.png"}/
+            = image_submit_tag("game-details.png", alt: "Alt text", class: "d-block w-100")
           .carousel-item
-            %img.d-block.w-100{alt: "...", src: "/assets/games-page.png"}/
+            = image_submit_tag("games-page.png", alt: "Alt text", class: "d-block w-100")
           .carousel-item
-            %img.d-block.w-100{alt: "...", src: "/assets/single-stats-page.png"}/
+            = image_submit_tag("single-stats-page.png", alt: "Alt text", class: "d-block w-100")
           .carousel-item
-            %img.d-block.w-100{alt: "...", src: "/assets/team-page.png"}/
+            = image_submit_tag("team-page.png", alt: "Alt text", class: "d-block w-100")
         %button.carousel-control-prev{"data-bs-slide" => "prev", "data-bs-target" => "#carouselExampleIndicators", type: "button"}
           %span.carousel-control-prev-icon{"aria-hidden" => "true"}
           %span.visually-hidden Previous
