@@ -1,0 +1,21 @@
+id,home_team_id,away_team_id,home_score,away_score,location,date,status,round_id,tournament_id
+1,4,2,,,Praga,2023-03-24 20:45:00 UTC,finished,1,RyHPSf
+8,3,2,,,Kiszyniów,2023-06-20 20:45:00 UTC,finished,4,RyHPSf
+3,3,4,,,Kiszyniów,2023-03-27 20:45:00 UTC,finished,2,RyHPSf
+5,1,4,,,Thorshavn,2023-06-17 20:45:00 UTC,finished,3,RyHPSf
+6,5,3,,,Tirana,2023-06-17 20:45:00 UTC,finished,3,RyHPSf
+7,1,5,,,Thorshavn,2023-06-20 20:45:00 UTC,finished,4,RyHPSf
+9,2,1,,,"",2023-09-07 20:45:00 UTC,upcoming,5,RyHPSf
+10,4,5,,,"",2023-09-07 20:45:00 UTC,upcoming,5,RyHPSf
+11,1,3,,,"",2023-09-10 18:00:00 UTC,upcoming,6,RyHPSf
+12,5,2,,,"",2023-09-10 20:45:00 UTC,upcoming,6,RyHPSf
+13,1,2,,,"",2023-10-12 20:45:00 UTC,upcoming,7,RyHPSf
+14,5,4,,,"",2023-10-12 20:45:00 UTC,upcoming,7,RyHPSf
+16,4,1,,,"",2023-10-15 18:00:00 UTC,upcoming,8,RyHPSf
+15,2,3,,,"",2023-10-15 20:45:00 UTC,upcoming,8,RyHPSf
+2,3,1,,,Kiszyniów,2023-03-24 20:45:00 UTC,finished,1,RyHPSf
+4,2,5,,,"",2023-03-27 20:45:00 UTC,finished,2,RyHPSf
+18,3,5,,,"",2023-11-17 20:45:00 UTC,upcoming,9,RyHPSf
+17,2,4,,,"",2023-11-17 20:45:00 UTC,upcoming,9,RyHPSf
+20,4,3,,,"",2023-11-20 20:45:00 UTC,upcoming,10,RyHPSf
+19,5,1,,,"",2023-11-20 20:45:00 UTC,upcoming,10,RyHPSf
