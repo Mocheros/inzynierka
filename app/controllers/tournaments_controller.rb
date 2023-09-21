@@ -137,7 +137,7 @@ class TournamentsController < ApplicationController
     end
 
     def check_permission
-      if !current_user || (current_user.id != @tournament.creator_id && !@tournament.editors.include?(current_user))
+      if !current_user || (current_user.id != @tournament.creator_id)
         flash[:danger] = 'Nie masz uprawnień do wykonania tej akcji.'
         redirect_to tournament_path(@tournament)
       end

@@ -7,5 +7,5 @@
         - unless @tournament.format == "System pucharowy"
           %th= link_to 'Tabela', tournament_standings_path(@tournament.id), class: ('active' if current_page?(tournament_standings_path(@tournament.id)))
         %th= link_to 'Strzelcy', tournament_top_scorers_path(@tournament.id), class: ('active' if current_page?(tournament_top_scorers_path(@tournament.id)))
-        - if current_user && (current_user.id == @tournament.creator_id || @tournament.editors.include?(current_user))
+        - if current_user && (current_user.id == @tournament.creator_id)
           %th= link_to 'Edytuj', edit_tournament_path(@tournament.id), class: ('active' if current_page?(edit_tournament_path(@tournament.id)))
