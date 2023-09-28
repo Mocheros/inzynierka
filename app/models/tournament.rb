@@ -163,7 +163,6 @@ class Tournament < ApplicationRecord
 
     rounds.times do |round|
       new_round = Round.create(name: "Kolejka nr #{round + 1}", tournament_id: t_id)
-      round_matches = []
       teams.each_with_index do |team1, i|
         break if i >= teams.length / 2
         team2 = teams.reverse[i]
@@ -172,18 +171,11 @@ class Tournament < ApplicationRecord
         # Dodajemy mecz do kolejki
         if team1 != 0 && team2 != 0
           game = Game.create(home_team_id: team1, away_team_id: team2, round_id: new_round.id, tournament_id: t_id)
-          match = [team1, team2]
-          round_matches << match
         end
       end
       
       # Zamieniamy pozycje druzyn, by utworzyc nowa kolejke
       teams.insert(1, teams.pop)
-
-      if teams.length.odd?
-        bye_team = teams[0]
-        round_matches << [bye_team, 0]
-      end
     end
   end
 
@@ -204,7 +196,7 @@ class Tournament < ApplicationRecord
       teams.each_with_index do |team1, i|
         break if i >= teams.length / 2
         team2 = teams.reverse[i]
-        next if team1 == team2          
+        next if team1 == team2
         
         if team1 != 0 && team2 != 0
           if Game.where(home_team_id: team1, away_team_id: team2, tournament_id: t_id).exists?
@@ -216,12 +208,7 @@ class Tournament < ApplicationRecord
         end
       end
       
-      # Zamieniamy pozycje druzyn, by utworzyc nowa kolejke
       teams.insert(1, teams.pop)
-
-      if teams.length.odd?
-        bye_team = teams[0]
-      end
     end
   end
 

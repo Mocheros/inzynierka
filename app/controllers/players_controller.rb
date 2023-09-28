@@ -29,7 +29,6 @@ class PlayersController < ApplicationController
     end
   end
 
-  # POST /players or /players.json
   def create
     @players = params[:players].values.pluck(:name, :shirt_number, :position).map do |player_params_loop|
       unless player_params_loop[0].empty?
