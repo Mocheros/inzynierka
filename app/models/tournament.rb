@@ -31,9 +31,9 @@ class Tournament < ApplicationRecord
               if teams.length > 63
                 round_32 = Round.create(name: "1/32-Finału", tournament_id: t_id)
                 if teams.length > 127
-                  round_128 = Round.create(name: "1/64-Finału", tournament_id: t_id)
+                  round_64 = Round.create(name: "1/64-Finału", tournament_id: t_id)
                   if teams.length > 255
-                    round_256 = Round.create(name: "1/128-Finału", tournament_id: t_id)
+                    round_128 = Round.create(name: "1/128-Finału", tournament_id: t_id)
                   end
                 end
               end
