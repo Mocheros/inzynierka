@@ -120,6 +120,7 @@ class TournamentsController < ApplicationController
     if user.present?
       @tournament_editor.update(user_id: user.id)
       if @tournament_editor.save
+        UserMailer.add_moderator(user.id, @tournament).deliver_later
         redirect_to edit_tournament_path(@tournament), notice: "Moderator został dodany"
       else
         flash[:danger] = 'Moderator nie został dodany'
